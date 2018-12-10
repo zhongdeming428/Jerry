@@ -7,9 +7,22 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup --config rollup.config.js",
+    "eslint": "eslint src/index.js"
   },
   "keywords": [],
   "author": "Russ Zhong",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
+    "eslint": "^5.10.0",
+    "jest": "^23.6.0",
+    "rollup": "^0.67.4",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.0"
+  }
 }

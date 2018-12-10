@@ -1,0 +1,25 @@
+{
+  "env": {
+    "browser": true,
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "globals": {
+    "Jerry": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "camelcase": 2,
+    "curly": 1,
+    "brace-style": [2, "1tbs"],
+    "quotes": [2, "single"],
+    "semi": [2, "always"],
+    "space-infix-ops": 2,
+    "object-curly-spacing": [1, "always"],
+    "array-bracket-spacing": 2,
+    "computed-property-spacing": 2,
+    "no-console": 0
+  }
+}
