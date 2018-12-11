@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "build": "rollup --config rollup.config.js",
     "eslint": "eslint src/index.js"
   },
@@ -16,13 +16,16 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.2.0",
+    "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-latest": "^6.24.1",
     "eslint": "^5.10.0",
-    "jest": "^23.6.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^5.2.0",
     "rollup": "^0.67.4",
     "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-uglify": "^6.0.0"
+    "rollup-plugin-terser": "^3.0.0"
   }
 }
