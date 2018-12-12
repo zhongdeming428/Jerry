@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 09:19:34 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-11 17:17:16
+ * @Last Modified time: 2018-12-12 15:53:12
  */
 const Jerry = require('../src/index');
 const expect = require('expect.js');
@@ -19,6 +19,9 @@ describe('*************************************Jerry 对象测试***************
   });
   it('Jerry 重复构造对象校验', function() {
     expect(Jerry(Jerry('name'))).to.be.eql({_wrapped: 'name'});
+  });
+  it('Jerry 版本号校验', function() {
+    expect(Jerry.__VERSION__).to.be.a('string');
   });
   /*****************************************检查 Jerry 对象自身属性********************************************/
   it('Jerry 函数有 mixin 函数', function() {
@@ -54,6 +57,35 @@ describe('*************************************Jerry 对象测试***************
   });
   it('Jerry 函数有 isSymbol 函数', function() {
     expect(Jerry.isSymbol(Symbol())).to.equal(true);
+  });
+  it('Jerry 函数有 isRegExp 函数', function() {
+    expect(Jerry.isRegExp(/\.test$/)).to.equal(true);
+  });
+  it('Jerry 函数有 isDate 函数', function() {
+    expect(Jerry.isDate(new Date())).to.equal(true);
+  });
+  it('Jerry 函数有 isUndefined 函数', function() {
+    expect(Jerry.isUndefined()).to.equal(true);
+  });
+  it('Jerry 函数有 isNull 函数', function() {
+    expect(Jerry.isNull(null)).to.equal(true);
+  });
+  it('Jerry 函数有 isFalsy 函数', function() {
+    expect(Jerry.isFalsy('')).to.equal(true);
+  });
+  it('Jerry 函数有 each 函数', function() {
+    let arr = [1, 3, 5];
+    Jerry.each(arr, function(v, k, a) {
+      a[k] = 1;
+    });
+    expect(arr).to.eql([1, 1, 1]);
+  });
+  it('Jerry 函数有 map 函数', function() {
+    let arr = [1, 3, 5];
+    let res = Jerry.map(arr, function(v, k, a) {
+      return 1;
+    });
+    expect(res).to.eql([1, 1, 1]);
   });
   /*****************************************检查 Jerry 原型对象属性********************************************/
   it('Jerry 原型有 mixin 属性', function() {
@@ -100,5 +132,34 @@ describe('*************************************Jerry 对象测试***************
   });
   it('Jerry 原型的 isSymbol 函数可以使用', function() {
     expect(Jerry(Symbol(12)).isSymbol()).to.equal(true);
+  });
+  it('Jerry 函数有 isRegExp 函数', function() {
+    expect(Jerry(/\.test$/).isRegExp()).to.equal(true);
+  });
+  it('Jerry 函数有 isDate 函数', function() {
+    expect(Jerry(new Date()).isDate()).to.equal(true);
+  });
+  it('Jerry 函数有 isUndefined 函数', function() {
+    expect(Jerry().isUndefined()).to.equal(true);
+  });
+  it('Jerry 函数有 isNull 函数', function() {
+    expect(Jerry(null).isNull()).to.equal(true);
+  });
+  it('Jerry 函数有 isFalsy 函数', function() {
+    expect(Jerry('').isFalsy()).to.equal(true);
+  });
+  it('Jerry 函数有 each 函数', function() {
+    let arr = [1, 3, 5];
+    Jerry(arr).each(function(v, k, a) {
+      a[k] = 1;
+    });
+    expect(arr).to.eql([1, 1, 1]);
+  });
+  it('Jerry 函数有 map 函数', function() {
+    let arr = [1, 3, 5];
+    let res = Jerry(arr).map(function(v, k, a) {
+      return 1;
+    });
+    expect(res).to.eql([1, 1, 1]);
   });
 });

@@ -2,13 +2,14 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 20:08:25 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-11 19:45:48
+ * @Last Modified time: 2018-12-12 14:44:44
  */
 
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
+import json from 'rollup-plugin-json';
 
 export default {
   input: 'src/index.js',
@@ -23,10 +24,26 @@ export default {
       main: true,
       browser: true
     }),
+    json(),
     commonjs(),
     babel({
-      exclude: 'node_modules/**' // 只编译我们的源代码
+      exclude: 'node_modules/**',
+      babelrc: false,
+      presets: [
+        ["env", {
+          "targets": {
+            "ie": 8
+          },
+          modules: false
+        }]
+      ],
+      plugins: [
+        'external-helpers'
+      ]
     }),
-    terser()
+    // terser({
+    //   ie8: true,
+    //   ecma: 5
+    // })
   ]
 };

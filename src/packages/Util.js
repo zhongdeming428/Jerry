@@ -2,11 +2,10 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-11 19:58:22
+ * @Last Modified time: 2018-12-12 17:48:44
  */
 
-const { toString } = require('../utils');
-
+const { toString, slice } = require('../utils');
 
 /**
  * 混淆函数，实现浅拷贝
@@ -43,7 +42,7 @@ function isPlainObject (param) {
 }
 
 function isObject (param) {
-  if (param == void 0) return false;
+  if (isUndefined(param) || isNull(param)) return false;
   return toString.call(param) === '[object Object]';
 }
 
@@ -68,6 +67,68 @@ function isSymbol(param) {
   return toString.call(param) === '[object Symbol]' && typeof param === 'symbol';
 }
 
+function isRegExp(param) {
+  return toString.call(param) === '[object RegExp]';
+}
+
+function isDate(param) {
+  return toString.call(param) === '[object Date]';
+}
+
+function isUndefined(param) {
+  return param === void 0;
+}
+
+function isNull(param) {
+  return param === null;
+}
+
+function isFalsy(param) {
+  let falsyArr = [0, false, undefined, null, '', NaN];
+  return falsyArr.includes(param);
+}
+
+/**
+ * 遍历对象或数组，对操作对象的属性或元素做处理
+ * @param {Object|Array} param 要遍历的对象或数组
+ * @param {Function} callback 回调函数
+ */
+function each(param, callback) {
+  if (isFalsy(param) || !isFunction(callback)) throw new TypeError('param 必须为对象或者数组，callback 必须是函数！');
+  if (isArray(param) || isArrayLike(param)) {
+    for (let i = 0; i < param.length; i++) {
+      callback(param[i], i, param);
+    }
+  } else if (isObject(param)) {
+    for (let val in param) {
+      callback(param[val], val, param);
+    }
+  } else {
+    throw new TypeError('each 的参数必须是 JavaScript 对象、数组或者类数组对象！');
+  }
+}
+
+/**
+ * 遍历数组、类数组对象或对象，返回一个对应的数组
+ * @param {Object|Array} param 要遍历的对象、数组或类数组对象
+ * @param {Function} callback 要使用的回调函数
+ */
+function map(param, callback) {
+  let res = [];
+  each(param, (v, k, o) => {
+    res.push(callback(v, k, o));
+  });
+  return res;
+};
+
+function reduce(param, callback, initVal) {
+  if (isUndefined(initVal)) {
+    each(slice.call(param, 1), callback(initVal, ))
+  } else {
+    
+  }
+}
+
 module.exports = {
   mixin,
   isFunction,
@@ -78,5 +139,12 @@ module.exports = {
   isArray,
   isArrayLike,
   isNaN,
-  isSymbol
+  isSymbol,
+  isRegExp,
+  isDate,
+  isUndefined,
+  isNull,
+  isFalsy,
+  each,
+  map
 };
