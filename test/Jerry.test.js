@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 09:19:34 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-12 15:53:12
+ * @Last Modified time: 2018-12-13 09:49:36
  */
 const Jerry = require('../src/index');
 const expect = require('expect.js');
@@ -87,6 +87,13 @@ describe('*************************************Jerry 对象测试***************
     });
     expect(res).to.eql([1, 1, 1]);
   });
+  it('Jerry 函数有 reduce 函数', function() {
+    let arr = [1, 3, 5];
+    let res = Jerry.reduce(arr, function(acc, v, k, a) {
+      return acc + v;
+    });
+    expect(res).to.eql(9);
+  });
   /*****************************************检查 Jerry 原型对象属性********************************************/
   it('Jerry 原型有 mixin 属性', function() {
     expect(Jerry.prototype.mixin).to.be.a(Function);
@@ -161,5 +168,12 @@ describe('*************************************Jerry 对象测试***************
       return 1;
     });
     expect(res).to.eql([1, 1, 1]);
+  });
+  it('Jerry 函数有 reduce 函数', function() {
+    let arr = [1, 3, 5];
+    let res = Jerry(arr).reduce(function(acc, v, k, a) {
+      return acc + v;
+    });
+    expect(res).to.eql(9);
   });
 });

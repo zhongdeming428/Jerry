@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 11:06:50 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-12 15:51:15
+ * @Last Modified time: 2018-12-13 17:05:47
  */
 
 const expect = require('expect.js');
@@ -21,9 +21,11 @@ const {
   isDate,
   isUndefined,
   isNull,
+  isInt,
   isFalsy,
   each,
-  map
+  map,
+  reduce
 } = require('../src/packages/Util');
 
 describe('*************************************测试工具函数*************************************', function() {
@@ -103,6 +105,9 @@ describe('*************************************测试工具函数***************
     });
     it('数字内容的字符串返回 false', function() {
       expect(isNumber('12')).to.not.be.ok();
+    });
+    it('NaN 返回 false', function() {
+      expect(isNumber(NaN)).to.equal(false)
     });
   });
   describe('测试 isObject', function() {
@@ -297,6 +302,39 @@ describe('*************************************测试工具函数***************
       expect(isNull(false)).to.equal(false);
     });
   });
+  describe('测试 isInt 函数', function() {
+    it('字面量整数返回 true', function() {
+      expect(isInt(12)).to.equal(true);
+    });
+    it('构造的整数返回 true', function() {
+      expect(isInt(new Number(12))).to.equal(true);
+    });
+    it('包装的整数返回 true', function() {
+      expect(isInt(Number(12))).to.equal(true);
+    });
+    it('小数部分为 0 的小数返回 true', function() {
+      expect(isInt(120.00)).to.equal(true);
+    });
+    it('小数部分不为 0 的小数返回 false', function() {
+      expect(isInt(120.001)).to.equal(false);
+    });
+    it('负整数返回 true', function() {
+      expect(isInt(-120)).to.equal(true);
+    });
+    it('负小数（小数部分不为 0）返回 false', function() {
+      expect(isInt(-120.001)).to.equal(false);
+    });
+    it('无穷大返回 false', function() {
+      expect(isInt(Infinity)).to.equal(false);
+      expect(isInt(-Infinity)).to.equal(false);
+    });
+    it('负小数（小数部分为 0）返回 true', function() {
+      expect(isInt(-120.00)).to.equal(true);
+    });
+    it('0 返回 true', function() {
+      expect(isInt(0)).to.equal(true);
+    });
+  });
   describe('测试 isFalsy', function() {
     it('0 返回 true', function() {
       expect(isFalsy(0)).to.equal(true);
@@ -443,5 +481,32 @@ describe('*************************************测试工具函数***************
       })(1, 2, 3);
       expect(res).to.eql([1, 4, 9]);
     })
+  });
+  describe('测试 reduce', function() {
+    it('[1, 3, 5] 累加返回 9（不传初始值）', function() {
+      expect(reduce([1, 3, 5], function(acc, v, k, o) {
+        return acc + v;
+      })).to.equal(9);
+    });
+    it('["a", "b", "c"] 累加返回 abc（不传初始值）', function() {
+      expect(reduce(["a", "b", "c"], function(acc, v, k, o) {
+        return acc + v;
+      })).to.equal("abc");
+    });
+    it('[1, 3, 5] 累加返回 10（传递初始值为 1）', function() {
+      expect(reduce([1, 3, 5], function(acc, v, k, o) {
+        return acc + v;
+      }, 1)).to.equal(10);
+    });
+    it('["a", "b", "c"] 累加返回 dabc（传递初始值为 "d"）', function() {
+      expect(reduce(["a", "b", "c"], function(acc, v, k, o) {
+        return acc + v;
+      }, "d")).to.equal("dabc");
+    });
+    it('二维数组转化为一维', function() {
+      expect(reduce([[1, 2], [2, 3]], function(acc, v, k, o) {
+        return [...acc, ...v];
+      })).to.eql([1, 2, 2, 3]);
+    });
   });
 });

@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-12 17:48:44
+ * @Last Modified time: 2018-12-13 17:04:44
  */
 
 const { toString, slice } = require('../utils');
@@ -29,7 +29,7 @@ function isFunction (param) {
 }
 
 function isNumber (param) {
-  return toString.call(param) === '[object Number]';
+  return toString.call(param) === '[object Number]' && !isNaN(param);
 }
 
 function isPlainObject (param) {
@@ -83,6 +83,14 @@ function isNull(param) {
   return param === null;
 }
 
+/**
+ * 判断数字是否是整数
+ * @param {Number} num 要判断的数字
+ */
+function isInt(num) {
+  return isNumber(num) && isFinite(num) && (num + '').indexOf('.') === -1;
+}
+
 function isFalsy(param) {
   let falsyArr = [0, false, undefined, null, '', NaN];
   return falsyArr.includes(param);
@@ -121,12 +129,19 @@ function map(param, callback) {
   return res;
 };
 
+/**
+ * 迭代数组、类数组对象或对象，返回一个累计值
+ * @param {Object|Array} param 要迭代的数组、类数组对象或对象
+ * @param {Function} callback 对每一项进行操作的回调函数，接收四个参数：acc 累加值、v 当前项、k 当前索引、o 当前迭代对象
+ * @param {Any} initVal 传入的初始值
+ */
 function reduce(param, callback, initVal) {
-  if (isUndefined(initVal)) {
-    each(slice.call(param, 1), callback(initVal, ))
-  } else {
-    
-  }
+  let hasInitVal = !isUndefined(initVal);
+  let acc = hasInitVal ? initVal : param[0];
+  each(hasInitVal ? param : slice.call(param, 1), (v, k, o) => {
+    acc = callback(acc, v, k, o);
+  });
+  return acc;
 }
 
 module.exports = {
@@ -144,7 +159,9 @@ module.exports = {
   isDate,
   isUndefined,
   isNull,
+  isInt,
   isFalsy,
   each,
-  map
+  map,
+  reduce
 };

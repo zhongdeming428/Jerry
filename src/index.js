@@ -2,12 +2,14 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 16:36:33 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-12 16:04:14
+ * @Last Modified time: 2018-12-13 17:18:41
  */
 
-const Util = require('./packages/Util');
-const { mixin, each, isUndefined } = Util;
-const modules = [Util];         // Bind modules to Jerry.
+const _Util = require('./packages/Util');
+const _Number = require('./packages/Number');
+const _String = require('./packages/String');
+const { mixin, each, isUndefined } = _Util;
+const modules = [_Util, _Number, _String];         // Bind modules to Jerry.
 const { slice } = require('./utils');
 const { version } = require('../package.json');
 
