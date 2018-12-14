@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 11:06:50 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-13 17:05:47
+ * @Last Modified time: 2018-12-14 15:18:14
  */
 
 const expect = require('expect.js');
@@ -25,7 +25,11 @@ const {
   isFalsy,
   each,
   map,
-  reduce
+  reduce,
+  contains,
+  keys,
+  has,
+  equals
 } = require('../src/packages/Util');
 
 describe('*************************************测试工具函数*************************************', function() {
@@ -507,6 +511,92 @@ describe('*************************************测试工具函数***************
       expect(reduce([[1, 2], [2, 3]], function(acc, v, k, o) {
         return [...acc, ...v];
       })).to.eql([1, 2, 2, 3]);
+    });
+  });
+  describe('测试 contains', function() {
+    // it('非法参数报错', function() {
+    //   expect(() => {contains('')}).to.throwError();
+    //   expect(() => {contains('')}).to.throwError();
+    //   expect(() => {contains('')}).to.throwError();
+    //   expect(() => {contains('')}).to.throwError();
+    // });
+    // it('确保功能正常', function() {
+
+    // });
+  });
+  describe('测试 keys', function() {
+    it('正确返回属性数组', function() {
+      expect(keys({})).to.eql([]);
+      expect(keys({name: ''})).to.eql(['name']);
+      expect(keys()).to.eql([]);
+      expect(keys('')).to.eql([]);
+      expect(keys({age: 12})).to.eql(['age']);
+    });
+  });
+  describe('测试 has', function() {
+    it('正确检测属性', function() {
+      expect(has({}, 'name')).to.equal(false);
+      expect(has({name: ''}, 'name')).to.equal(true);
+      expect(has({age: 12}, 'age')).to.equal(true);
+      expect(has({person: {name: ''}}, ['person', 'name'])).to.equal(true);
+    });
+    it('非法参数报错', function() {
+      expect(() => {has()}).to.throwError();
+      expect(() => {has({})}).to.throwError();
+      expect(() => {has({}, 12)}).to.throwError();
+      expect(() => {has(12)}).to.throwError();
+    });
+  });
+  describe('测试 equals', function() {
+    it('确保正确判断', function() {
+      expect(equals(NaN, NaN)).to.equal(true);
+      expect(equals(function() {}, function() {})).to.equal(false);
+      expect(equals({}, {})).to.equal(true);
+      expect(equals(0, -0)).to.equal(false);
+      expect(equals([], [])).to.equal(true);
+      expect(equals(undefined, undefined)).to.equal(true);
+      expect(equals(null, null)).to.equal(true);
+      expect(equals({name: 'test', age: 12}, {age: 12, name: 'test'})).to.equal(true);
+      expect(equals([12, 23, 3], [12, 23, 3])).to.equal(true);
+      expect(equals([1, 4, 2, 3], [1, 2, 4, 3])).to.equal(false);
+      expect(equals({person: {name: 'test', age: 12, friends: [1, 2, 3]}}, {person: {name: 'test', age: 12, friends: [1, 2, 3]}})).to.equal(true);
+      expect(equals(/\.js$/gi, /\.js$/ig)).to.equal(true);
+      expect(equals(new Date('2018-12-12'), new Date('2018-12-12'))).to.equal(true);
+      expect(equals()).to.equal(true);
+      expect(equals({})).to.equal(false);
+      expect(equals(1)).to.equal(false);
+      expect(equals(1, 1)).to.equal(true);
+      expect(equals(-1, -1)).to.equal(true);
+      expect(equals(1, 1.0)).to.equal(true);
+      expect(equals('', '')).to.equal(true);
+      expect(equals('12', '12')).to.equal(true);
+    });
+  });
+  describe('检测 contains', function() {
+    it('非法参数报错', function() {
+      expect(() => {contains()}).to.throwError();
+      expect(() => {contains(12)}).to.throwError();
+      expect(() => {contains(1, 2)}).to.throwError();
+      expect(() => {contains(false, true)}).to.throwError();
+    });
+    it('确保正确检测数组', function() {
+      expect(contains([1, 2, 3], 1)).to.equal(true);
+      expect(contains([1, '2', 3], '2')).to.equal(true);
+      expect(contains([1, 2, '3'], 3)).to.equal(false);
+      expect(contains([1, NaN, 3], NaN)).to.equal(true);
+      expect(contains([1, undefined, 3], undefined)).to.equal(true);
+      expect(contains([1, {}, 3], {})).to.equal(true);
+      expect(contains([1, [], 3], [])).to.equal(true);
+      expect(contains([1, true, 3], true)).to.equal(true);
+      expect(contains([1, {name: 'test', age: 1}, 3], {name: 'test', age: 1})).to.equal(true);
+    });
+    it('确保正确检测类数字对象', function() {
+      expect(contains('123', 2)).to.equal(true);
+      expect(contains('1234', '2')).to.equal(true);
+      expect(contains('abcd', 'abc')).to.equal(true);
+      expect(contains('xyz', 'xz')).to.equal(false);
+      expect(contains({'0': 12, length: 1}, 12)).to.equal(true);
+      expect(contains({'0': 12, '1': 'name', length: 2}, 'name')).to.equal(true);
     });
   });
 });

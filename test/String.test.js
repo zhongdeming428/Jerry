@@ -2,13 +2,16 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-13 17:37:51
+ * @Last Modified time: 2018-12-14 11:01:42
  */
 
 const expect = require('expect.js');
 const {
   repeat,
-  insertStr
+  insertStr,
+  trimLeft,
+  trimRight,
+  trim
 } = require('../src/packages/String');
 
 describe('*************************************测试 String *************************************', function() {
@@ -53,6 +56,57 @@ describe('*************************************测试 String *******************
       expect(insertStr('123123', '_', 2)).to.equal('12_31_23');
       expect(insertStr('12312341234', '-', 4)).to.equal('123-1234-1234');
       expect(insertStr('ihafkdahfj', ',', 2)).to.equal('ih,af,kd,ah,fj');
+    });
+  });
+  describe('测试 trimLeft', function() {
+    it('非法参数报错', function() {
+      expect(() => {trimLeft(12)}).to.throwError;
+      expect(() => {trimLeft(false)}).to.throwError;
+      expect(() => {trimLeft({})}).to.throwError;
+      expect(() => {trimLeft([])}).to.throwError;
+      expect(() => {trimLeft(function() {})}).to.throwError;
+    });
+    it('确保正确去除左侧空格', function() {
+      expect(trimLeft(' 1')).to.equal('1');
+      expect(trimLeft('     1')).to.equal('1');
+      expect(trimLeft('  123')).to.equal('123');
+      expect(trimLeft('   1')).to.equal('1');
+      expect(trimLeft('\r\n1')).to.equal('1');
+      expect(trimLeft('\r\n\t1')).to.equal('1');
+    });
+  });
+  describe('测试 trimRight', function() {
+    it('非法参数报错', function() {
+      expect(() => {trimRight(12)}).to.throwError;
+      expect(() => {trimRight(false)}).to.throwError;
+      expect(() => {trimRight({})}).to.throwError;
+      expect(() => {trimRight([])}).to.throwError;
+      expect(() => {trimRight(function() {})}).to.throwError;
+    });
+    it('确保正确去除左侧空格', function() {
+      expect(trimRight('1 ')).to.equal('1');
+      expect(trimRight('1     ')).to.equal('1');
+      expect(trimRight('123  ')).to.equal('123');
+      expect(trimRight('1   ')).to.equal('1');
+      expect(trimRight('1\r\n')).to.equal('1');
+      expect(trimRight('1\r\n\t')).to.equal('1');
+    });
+  });
+  describe('测试 trim', function() {
+    it('非法参数报错', function() {
+      expect(() => {trim(12)}).to.throwError;
+      expect(() => {trim(false)}).to.throwError;
+      expect(() => {trim({})}).to.throwError;
+      expect(() => {trim([])}).to.throwError;
+      expect(() => {trim(function() {})}).to.throwError;
+    });
+    it('确保正确去除左侧空格', function() {
+      expect(trim(' 1 ')).to.equal('1');
+      expect(trim(' 1     ')).to.equal('1');
+      expect(trim('    123  ')).to.equal('123');
+      expect(trim('       1   ')).to.equal('1');
+      expect(trim('\t\r\n1\r\n')).to.equal('1');
+      expect(trim('\t1\r\n\t')).to.equal('1');
     });
   });
 });

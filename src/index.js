@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 16:36:33 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-13 17:18:41
+ * @Last Modified time: 2018-12-14 16:06:05
  */
 
 const _Util = require('./packages/Util');
@@ -17,11 +17,11 @@ const { version } = require('../package.json');
   * 
   * @param {Any} obj 传递给 Jerry 函数或者构造器的值。
   */
-let Jerry = function(obj) {
+function Jerry(obj) {
   if (obj instanceof Jerry) return obj;
   else if (this instanceof Jerry) this._wrapped = obj;
   else return new Jerry(obj);
-};
+}
 
 each(modules, (module) => {
   each(module, (val, key) => {

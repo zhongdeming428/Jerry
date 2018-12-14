@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-13 19:25:47
+ * @Last Modified time: 2018-12-14 11:07:51
  */
 
 const { join, throwTypeErr } = require('../utils');
@@ -42,7 +42,37 @@ function insertStr(str = '', notation = ',', distance = 3) {
   return res;
 }
 
+/**
+ * 去除字符串左边的空格
+ * @param {String} str 要处理的字符串
+ */
+function trimLeft(str) {
+  if (!isString(str)) throwTypeErr('trimLeft 参数非法！');
+  return str.replace(/^\s+/, '');
+}
+
+/**
+ * 去除字符串右边的空格
+ * @param {String} str 要处理的字符串
+ */
+function trimRight(str) {
+  if (!isString(str)) throwTypeErr('trimRight 参数非法！');
+  return str.replace(/\s+$/, '');
+}
+
+/**
+ * 去除字符串首尾的空格
+ * @param {String} str 要处理的字符串
+ */
+function trim(str) {
+  if (!isString(str)) throwTypeErr('trim 参数非法！');
+  return trimRight(trimLeft(str));
+}
+
 module.exports = {
   repeat,
-  insertStr
+  insertStr,
+  trimLeft,
+  trimRight,
+  trim
 };

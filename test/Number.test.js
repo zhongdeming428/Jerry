@@ -5,7 +5,9 @@ const {
   div,
   factorial,
   toCurrency,
-  toChineseAmount
+  toChineseAmount,
+  toPhoneNumber,
+  toDate
 } = require('../src/packages/Number');
 const expect = require('expect.js');
 
@@ -55,6 +57,8 @@ describe('*************************************测试 Number *******************
       expect(div(-1)).to.equal(-1);
     });
     it('计算一系列除法运算不丢失精度', function() {
+      expect(div(0.3, -0.2)).to.equal(-1.5);
+      expect(div(-0.3, 0.2)).to.equal(-1.5);
       expect(div(0.3, 0.2)).to.equal(1.5);
       expect(div(0.6, 0.2)).to.equal(3);
       expect(div(1.2, 0.2)).to.equal(6);
@@ -87,6 +91,8 @@ describe('*************************************测试 Number *******************
       expect(sub(-100, 1, 1, 1)).to.equal(-103);
     });
     it('计算不丢失精度', function() {
+      expect(sub(-0.3, 0.1)).to.equal(-0.4);
+      expect(sub(0.3, -0.1)).to.equal(0.4);
       expect(sub(0.3, 0.1)).to.equal(0.2);
       expect(sub(0.4, 0.3)).to.equal(0.1);
       expect(sub(0.55, 0.19)).to.equal(0.36);
@@ -109,6 +115,7 @@ describe('*************************************测试 Number *******************
     });
     it('多参数计算', function() {
       expect(mul(2, 3)).to.equal(6);
+      expect(mul(0.19, -12)).to.equal(-2.28);
       expect(mul(1, 2, 3, 4)).to.equal(24);
       expect(mul(0.55, 100, 2)).to.equal(110);
     });
@@ -169,7 +176,40 @@ describe('*************************************测试 Number *******************
       expect(toChineseAmount(123.05)).to.equal('壹佰贰拾叁圆零伍分');
       expect(toChineseAmount(123.0)).to.equal('壹佰贰拾叁圆');
       expect(toChineseAmount(1234567.5)).to.equal('壹佰贰拾叁万肆仟伍佰陆拾柒圆伍角');
-      expect(toChineseAmount(123123122121.35)).to.equal('壹仟贰佰叁拾壹亿贰仟叁佰壹拾贰万贰仟壹佰贰拾壹圆叁角伍分' );
+      expect(toChineseAmount(123123122121.35)).to.equal('壹仟贰佰叁拾壹亿贰仟叁佰壹拾贰万贰仟壹佰贰拾壹圆叁角伍分');
+      expect(toChineseAmount(123456789123.35)).to.equal('壹仟贰佰叁拾肆亿伍仟陆佰柒拾捌万玖仟壹佰贰拾叁圆叁角伍分');
+    });
+  });
+  describe('测试 toPhoneNumber', function() {
+    it('非法参数报错', function() {
+      expect(() => {toPhoneNumber()}).to.throwError();
+      expect(() => {toPhoneNumber('123')}).to.throwError();
+      expect(() => {toPhoneNumber(123)}).to.throwError();
+      expect(() => {toPhoneNumber(false)}).to.throwError();
+      expect(() => {toPhoneNumber({})}).to.throwError();
+      expect(() => {toPhoneNumber(null)}).to.throwError();
+      expect(() => {toPhoneNumber(123123413245)}).to.throwError();
+      expect(() => {toPhoneNumber('12312341234')}).to.throwError();
+    });
+    it('确保正确转化', function() {
+      expect(toPhoneNumber(13873789595)).to.equal('138-7378-9595');
+      expect(toPhoneNumber(15915654595)).to.equal('159-1565-4595');
+    });
+  });
+  describe('测试 toDate', function() {
+    it('非法参数报错', function() {
+      expect(() => {toDate()}).to.throwError();
+      expect(() => {toDate('123')}).to.throwError();
+      expect(() => {toDate(123, '-')}).to.throwError();
+      expect(() => {toDate(false, '-')}).to.throwError();
+      expect(() => {toDate({}, '-')}).to.throwError();
+      expect(() => {toDate(null, '-')}).to.throwError();
+      expect(() => {toDate(123123413245, '/')}).to.throwError();
+      expect(() => {toDate('12312341234', '-')}).to.throwError();
+    });
+    it('确保正确转化', function() {
+      expect(toDate(20181212, '-')).to.equal('2018-12-12');
+      expect(toDate(15915654, '/')).to.equal('1591/56/54');
     });
   });
 });

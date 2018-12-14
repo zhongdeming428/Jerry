@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "5"
+install:
+  - npm i
+script:
+  - npm run eslint
+  - npm run test
+
+cache:
+  directories:
+    - node_modules

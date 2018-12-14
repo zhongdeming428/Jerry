@@ -2,11 +2,11 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 09:47:57 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-13 20:47:20
+ * @Last Modified time: 2018-12-14 10:19:02
  */
 
 const { each, reduce, isNumber, isInt, isString } = require('../packages/Util');
-const { slice, throwTypeErr } = require('../utils');
+const { throwTypeErr } = require('../utils');
 const { repeat, insertStr } = require('./String');
 
 const paramLenErr = '参数长度不够！';
@@ -115,6 +115,27 @@ function toChineseAmount(num) {
   return res.replace('零角', '零').replace('零分', '');
 }
 
+/**
+ * 将 7 位或者 11 位的数字转化为电话格式的字符串
+ * @param {Number} num 要转化的数字
+ */
+function toPhoneNumber(num) {
+  if (!isInt(num)) throwTypeErr('toPhoneNumber 参数不合法！');
+  if (String(num).length === 11) return insertStr(String(num), '-', 4);
+  else if (String(num).length === 7) return insertStr(String(num), '-', 3).replace('-', '');
+  else throwTypeErr('toPhoneNumber 参数不合法！');
+}
+
+/**
+ * 将 8 位数字转化为日期格式的字符串
+ * @param {Number} num 要转化的数字
+ * @param {String} delimeter 指定分隔符
+ */
+function toDate(num, delimeter) {
+  if (!isInt(num) || String(num).length !== 8) throwTypeErr('toDate 参数不合法！');
+  return insertStr(String(num), delimeter, 2).replace(delimeter, '');
+}
+
 module.exports = {
   add: _calcReducer('add'),
   sub: _calcReducer('sub'),
@@ -122,5 +143,7 @@ module.exports = {
   div: _calcReducer('div'),
   factorial,
   toCurrency,
-  toChineseAmount
+  toChineseAmount,
+  toPhoneNumber,
+  toDate
 };
