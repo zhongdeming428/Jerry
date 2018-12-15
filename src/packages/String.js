@@ -2,11 +2,18 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-14 11:07:51
+ * @Last Modified time: 2018-12-15 14:57:21
  */
 
 const { join, throwTypeErr } = require('../utils');
-const { isString, isNumber, isInt } = require('./Util');
+const { 
+  isString, 
+  isNumber, 
+  isInt, 
+  contains, 
+  each, 
+  isObject 
+} = require('./Util');
 
 /**
  * 将指定字符串重复指定次数
@@ -69,10 +76,54 @@ function trim(str) {
   return trimRight(trimLeft(str));
 }
 
+/**
+ * 将字符串转化为密码
+ * @param {String} str 要转化的字符串
+ */
+function toPsw(str) {
+  if (!isString(str)) throwTypeErr('toPsw 参数不合法！');
+  let len = str.length;
+  return repeat('*', len);
+}
+
+/**
+ * 从 URL 字符串中提取参数
+ * @param {String} url URL 字符串
+ * @param {String} key 参数名
+ */
+function getUrlParam(url, key) {
+  let urlReg = /(\S+=\S&?)+/;
+  if (!isString(url) || !isString(key) || !urlReg.test(url)) throwTypeErr('getUrlParam 参数不合法！');
+  if (!contains(url, key)) return '';
+  url = contains(url, '?') ? url.split('?')[1] : url;
+  let key_vals = url.split('&'),
+      res = '';
+  each(key_vals, (v, k) => {
+    if (v.split('=')[0] === key) res = v.split('=')[1];
+  });
+  return res;
+}
+
+/**
+ * 将 JavaScript 对象转化为 URL 参数字符串
+ * @param {Object} obj 包含参数键值对的对象
+ */
+function setUrlParam(obj) {
+  if (!isObject(obj)) throwTypeErr('setUrlParam 参数不合法！');
+  let res = [];
+  each(obj, (v, k) => {
+    res.push(`${k}=${v}`);
+  });
+  return res.join('&');
+}
+
 module.exports = {
   repeat,
   insertStr,
   trimLeft,
   trimRight,
-  trim
+  trim,
+  toPsw,
+  getUrlParam,
+  setUrlParam
 };

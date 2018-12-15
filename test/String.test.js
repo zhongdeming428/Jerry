@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-14 11:01:42
+ * @Last Modified time: 2018-12-15 14:55:31
  */
 
 const expect = require('expect.js');
@@ -11,7 +11,10 @@ const {
   insertStr,
   trimLeft,
   trimRight,
-  trim
+  trim,
+  toPsw,
+  getUrlParam,
+  setUrlParam
 } = require('../src/packages/String');
 
 describe('*************************************测试 String *************************************', function() {
@@ -107,6 +110,63 @@ describe('*************************************测试 String *******************
       expect(trim('       1   ')).to.equal('1');
       expect(trim('\t\r\n1\r\n')).to.equal('1');
       expect(trim('\t1\r\n\t')).to.equal('1');
+    });
+  });
+  describe('测试 toPsw', function() {
+    it('非法参数报错', function() {
+      expect(() => {toPsw()}).to.throwError();
+      expect(() => {toPsw(12)}).to.throwError();
+      expect(() => {toPsw(false)}).to.throwError();
+      expect(() => {toPsw({})}).to.throwError();
+      expect(() => {toPsw(function() {})}).to.throwError();
+      expect(() => {toPsw(Symbol(12))}).to.throwError();
+    });
+    it('确保正确转化', function() {
+      expect(toPsw('123')).to.equal('***');
+      expect(toPsw('123abc')).to.equal('******');
+      expect(toPsw('12 3')).to.equal('****');
+      expect(toPsw('_ 123asd')).to.equal('********');
+    });
+  });
+  describe('测试 getUrlParam', function() {
+    it('非法参数报错', function() {
+      expect(() => {getUrlParam()}).to.throwError();
+      expect(() => {getUrlParam('')}).to.throwError();
+      expect(() => {getUrlParam('asd', 'asd')}).to.throwError();
+      expect(() => {getUrlParam('asd', 123)}).to.throwError();
+      expect(() => {getUrlParam('a=', 'a')}).to.throwError();
+      expect(() => {getUrlParam('=b', 'b')}).to.throwError();
+      expect(() => {getUrlParam({})}).to.throwError();
+      expect(() => {getUrlParam(true)}).to.throwError();
+      expect(() => {getUrlParam([])}).to.throwError();
+      expect(() => {getUrlParam(function() {})}).to.throwError();
+    });
+    it('确保正确获取参数', function() {
+      expect(getUrlParam('a=b&c=d', 'a')).to.equal('b');
+      expect(getUrlParam('a=b&c=d', 'c')).to.equal('d');
+      expect(getUrlParam('?name=russ&age=12', 'age')).to.equal('12');
+      expect(getUrlParam('?name=russ&age=12', 'name')).to.equal('russ');
+      expect(getUrlParam('?a=b', 'a')).to.equal('b');
+    });
+  });
+  describe('测试 setUrlParam', function() {
+    it('非法参数报错', function() {
+      expect(() => {setUrlParam()}).to.throwError();
+      expect(() => {setUrlParam('')}).to.throwError();
+      expect(() => {setUrlParam(12)}).to.throwError();
+      expect(() => {setUrlParam(false)}).to.throwError();
+      expect(() => {setUrlParam(function() {})}).to.throwError();
+      expect(() => {setUrlParam(Symbol(12))}).to.throwError();
+    });
+    it('确保正确转化', function() {
+      let CustomObj = function() {
+        this.name = 'test';
+        this.age = 1;
+      };
+      expect(setUrlParam({name: 'test', age: 12})).to.equal('name=test&age=12');
+      expect(setUrlParam({})).to.equal('');
+      expect(setUrlParam(new CustomObj())).to.equal('name=test&age=1');
+      expect(setUrlParam({name: 'test', age: 12, gender: 'male'})).to.equal('name=test&age=12&gender=male');
     });
   });
 });

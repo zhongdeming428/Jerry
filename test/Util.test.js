@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 11:06:50 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-14 15:18:14
+ * @Last Modified time: 2018-12-15 15:06:24
  */
 
 const expect = require('expect.js');
@@ -23,6 +23,7 @@ const {
   isNull,
   isInt,
   isFalsy,
+  isElement,
   each,
   map,
   reduce,
@@ -366,6 +367,12 @@ describe('*************************************测试工具函数***************
     });
     it('空数组返回 false', function() {
       expect(isFalsy([])).to.equal(false);
+    });
+  });
+  describe('测试 isElement', function() {
+    it('测试 isElement', function() {
+      expect(() => {isElement()}).to.throwError();
+      expect(isElement({nodeType: 1})).to.equal(true);
     });
   });
   describe('测试 each', function() {

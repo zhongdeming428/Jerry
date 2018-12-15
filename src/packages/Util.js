@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-14 17:14:06
+ * @Last Modified time: 2018-12-15 15:02:29
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr } = require('../utils');
@@ -94,6 +94,14 @@ function isInt(num) {
 function isFalsy(param) {
   let falsyArr = [0, false, undefined, null, '', NaN];
   return contains(falsyArr, param);
+}
+
+/**
+ * 判断一个对象是否是 DOM 元素节点
+ * @param {Any} param 要判断的对象
+ */
+function isElement(param) {
+  return param.nodeType && param.nodeType === 1;
 }
 
 /**
@@ -299,6 +307,7 @@ module.exports = {
   isNull,
   isInt,
   isFalsy,
+  isElement,
   each,
   map,
   reduce,
