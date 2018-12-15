@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 20:08:25 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-12 14:44:44
+ * @Last Modified time: 2018-12-15 16:27:08
  */
 
 import resolve from 'rollup-plugin-node-resolve';
@@ -41,9 +41,9 @@ export default {
         'external-helpers'
       ]
     }),
-    // terser({
-    //   ie8: true,
-    //   ecma: 5
-    // })
+    terser({
+      ie8: true,
+      ecma: 5
+    })
   ]
 };
