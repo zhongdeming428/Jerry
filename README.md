@@ -11,6 +11,8 @@
 
 尤其是在你写代码之前，请注意仔细阅读提交代码所要注意的事项。
 
+此外，如果你有任何好的想法，欢迎在 issues 发布新的 issues。如果你想提供好的意见，增加实用的新功能，可以在已有的 [New Features](https://github.com/zhongdeming428/Jerry/issues/2) 下面留言。
+
 ## 如何在本地构建
 
 首先，拷贝代码到本地：
