@@ -1,6 +1,6 @@
 {
   "name": "jerrytools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A small JavaScript library.",
   "main": "dist/Jerry.min.js",
   "directories": {
