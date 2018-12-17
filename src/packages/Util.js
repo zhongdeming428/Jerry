@@ -2,10 +2,10 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 14:19:09
+ * @Last Modified time: 2018-12-17 16:16:41
  */
 
-const { toString, slice, hasOwnProp, throwTypeErr } = require('../utils');
+const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
 
 /**
  * 混淆函数，实现浅拷贝
@@ -301,6 +301,44 @@ function has(obj, key) {
   return hasOwnProp.call(obj, key);
 }
 
+/**
+ * 设置 cookie
+ * @param {String} key cookie 名称
+ * @param {String} value cookie 的值
+ * @param {Number} day 有效时长（单位是天）
+ */
+function setCookie(key, value, day) {
+  if (!isInBrowser()) return;
+  let expires = day * 24 * 3600 * 1000,
+      date = new Date(+(new Date()) + expires);
+  window.document.cookie = `${key}=${value};expires=${date.toUTCString()}`;
+}
+
+/**
+ * 获取 cookie 值
+ * @param {String} key cookie 名称
+ */
+function getCookie(key) {
+  if (!isInBrowser()) return '';
+  let cookie = window.document.cookie,
+      key_vals = cookie.split(';'),
+      res = '';
+  each(key_vals, key_val => {
+    let k = key_val.split('=')[0].replace(/\s/g, '');
+    if (k !== key) return;
+    res = key_val.split('=')[1];
+  });
+  return res;
+}
+
+/**
+ * 删除 cookie
+ * @param {String} key cookie 名称
+ */
+function delCookie(key) {
+  setCookie(key, '', -1);
+}
+
 module.exports = {
   mixin,
   isFunction,
@@ -326,5 +364,8 @@ module.exports = {
   contains,
   keys,
   has,
-  equals
+  equals,
+  setCookie,
+  getCookie,
+  delCookie
 };
