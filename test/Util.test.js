@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 11:06:50 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-15 15:06:24
+ * @Last Modified time: 2018-12-17 14:14:03
  */
 
 const expect = require('expect.js');
@@ -27,6 +27,7 @@ const {
   each,
   map,
   reduce,
+  filter,
   contains,
   keys,
   has,
@@ -185,6 +186,9 @@ describe('*************************************测试工具函数***************
     });
     it('参数类数组对象返回 false', function() {
       expect(isArray(arguments)).to.not.be.ok();
+    });
+    it('函数返回 false', function() {
+      expect(isArray(function() {})).to.not.be.ok();
     });
     it('自定义类数组对象返回 false', function() {
       let arrayLikeObj = {
@@ -520,16 +524,34 @@ describe('*************************************测试工具函数***************
       })).to.eql([1, 2, 2, 3]);
     });
   });
+  describe('测试 filter', function() {
+    it('非法参数报错', function() {
+      expect(() => {filter()}).to.throwError();
+      expect(() => {filter(false)}).to.throwError();
+      expect(() => {filter({})}).to.throwError();
+      expect(() => {filter(Symbol(1))}).to.throwError();
+    });
+    it('确保正确过滤', function() {
+      expect(filter([1, 2], () => false)).to.eql([]);
+      expect(filter([1, 2], () => true)).to.eql([1, 2]);
+      expect(filter([1, 2], item => item > 1)).to.eql([2]);
+      expect(filter([1, 2, 3], item => item > 1)).to.eql([2, 3]);
+    });
+  });
   describe('测试 contains', function() {
-    // it('非法参数报错', function() {
-    //   expect(() => {contains('')}).to.throwError();
-    //   expect(() => {contains('')}).to.throwError();
-    //   expect(() => {contains('')}).to.throwError();
-    //   expect(() => {contains('')}).to.throwError();
-    // });
-    // it('确保功能正常', function() {
-
-    // });
+    it('非法参数报错', function() {
+      expect(() => {contains(Symbol(1))}).to.throwError();
+      expect(() => {contains(false)}).to.throwError();
+      expect(() => {contains(12)}).to.throwError();
+      expect(() => {contains({})}).to.throwError();
+    });
+    it('确保功能正常', function() {
+      expect(contains([1, 2], 2)).to.equal(true);
+      expect(contains([1, '2'], '2')).to.equal(true);
+      expect(contains([1, 2, true], true)).to.equal(true);
+      expect(contains([1, 2, NaN], NaN)).to.equal(true);
+      expect(contains([1, 2, undefined], undefined)).to.equal(true);
+    });
   });
   describe('测试 keys', function() {
     it('正确返回属性数组', function() {
