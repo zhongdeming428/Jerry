@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-15 15:02:29
+ * @Last Modified time: 2018-12-17 14:19:09
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr } = require('../utils');
@@ -130,6 +130,7 @@ function each(param, callback) {
  * @param {Function} callback 要使用的回调函数
  */
 function map(param, callback) {
+  if (!isFunction(callback)) throwTypeErr('map 回调函数不合法！');
   let res = [];
   each(param, (v, k, o) => {
     res.push(callback(v, k, o));
@@ -144,12 +145,22 @@ function map(param, callback) {
  * @param {Any} initVal 传入的初始值
  */
 function reduce(param, callback, initVal) {
+  if (!isFunction(callback)) throwTypeErr('reduce 回调函数不合法！');
   let hasInitVal = !isUndefined(initVal);
   let acc = hasInitVal ? initVal : param[0];
   each(hasInitVal ? param : slice.call(param, 1), (v, k, o) => {
     acc = callback(acc, v, k, o);
   });
   return acc;
+}
+
+function filter(param, callback) {
+  if (!isFunction(callback)) throwTypeErr('filter 回调函数不合法！');
+  let res = [];
+  each(param, (v, k, o) => {
+    callback(v, k, o) ? res.push(v) : null;
+  });
+  return res;
 }
 
 /**
@@ -311,6 +322,7 @@ module.exports = {
   each,
   map,
   reduce,
+  filter,
   contains,
   keys,
   has,
