@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-15 14:55:31
+ * @Last Modified time: 2018-12-18 10:13:31
  */
 
 const expect = require('expect.js');
@@ -14,7 +14,8 @@ const {
   trim,
   toPsw,
   getUrlParam,
-  setUrlParam
+  setUrlParam,
+  cutStr
 } = require('../src/packages/String');
 
 describe('*************************************测试 String *************************************', function() {
@@ -167,6 +168,24 @@ describe('*************************************测试 String *******************
       expect(setUrlParam({})).to.equal('');
       expect(setUrlParam(new CustomObj())).to.equal('name=test&age=1');
       expect(setUrlParam({name: 'test', age: 12, gender: 'male'})).to.equal('name=test&age=12&gender=male');
+    });
+  });
+  describe('测试 cutStr', function() {
+    it('非法参数报错', function() {
+      expect(() => {cutStr()}).to.throwError();
+      expect(() => {cutStr({}, 2, 1)}).to.throwError();
+      expect(() => {cutStr([], 2, 1)}).to.throwError();
+      expect(() => {cutStr('', '2', '2')}).to.throwError();
+    });
+    it('确保正确切割', function() {
+      expect(cutStr('abc', 1, 1)).to.eql(['a', 'b', 'c']);
+      expect(cutStr('0', 4, -1)).to.eql(['0']);
+      expect(cutStr('abc', 2, 1)).to.eql(['ab', 'c']);
+      expect(cutStr('abc', 2, -1)).to.eql(['a', 'bc']);
+      expect(cutStr('abcdefg', 3, 1)).to.eql(['abc', 'def', 'g']);
+      expect(cutStr('abcdefg', 3, -1)).to.eql(['a', 'bcd', 'efg']);
+      expect(cutStr('abcdefghijklmn', 3, 1)).to.eql(['abc', 'def', 'ghi', 'jkl', 'mn']);
+      expect(cutStr('abcdefghijklmn', 3, -1)).to.eql(['ab', 'cde', 'fgh', 'ijk', 'lmn']);
     });
   });
 });
