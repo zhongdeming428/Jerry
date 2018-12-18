@@ -2,12 +2,12 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:09 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 17:15:12
+ * @Last Modified time: 2018-12-18 19:48:44
  */
 
 const { isArray, reduce, each, contains, filter } = require('./Util');
 const { throwTypeErr, slice } = require('../utils');
-const { add, div } = require('../packages/Number');
+const { add, div, sub } = require('../packages/Number');
 
 /**
  * 求数组中的最大值
@@ -42,6 +42,16 @@ function sum(arr) {
  */
 function avg(arr) {
   return div(sum(arr), arr.length);
+}
+
+/**
+ * 求数组中所有元素的方差
+ * @param {Array} arr 要求方差的数组
+ */
+function variance(arr) {
+  let average = avg(arr),
+      sumOfSquares = reduce(arr, (acc, v) => add(acc, Math.pow(sub(v, average), 2)), 0);
+  return div(sumOfSquares, arr.length);
 }
 
 /**
@@ -121,5 +131,6 @@ module.exports = {
   union,
   difference,
   removeDup,
-  flatten
+  flatten,
+  variance
 };

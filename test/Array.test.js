@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:04 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 17:16:03
+ * @Last Modified time: 2018-12-18 19:47:11
  */
 
 const expect = require('expect.js');
@@ -15,7 +15,8 @@ const {
   union,
   difference,
   removeDup,
-  flatten
+  flatten,
+  variance
 } = require('../src/packages/Array');
 
 describe('*************************************测试 Array*************************************', function() {
@@ -153,4 +154,18 @@ describe('*************************************测试 Array*********************
       expect(avg([110, 2, 5])).to.be(39);
     });
   });
+  describe('测试 variance', function() {
+    it('非法参数报错', function() {
+      expect(() => {variance({})}).to.throwError();
+      expect(() => {variance(false)}).to.throwError();
+      expect(() => {variance('')}).to.throwError();
+      expect(() => {variance(123)}).to.throwError();
+    });
+    it('求出正确的方差', function() {
+      expect(variance([1, 2, 3])).to.be(2/3);
+      expect(variance([1, 2, 3, 4])).to.be(1.25);
+      expect(variance([1, 2, 3, 4, 5])).to.be(2);
+      expect(variance([-1, 2, 3])).to.be(78/27);
+    });
+  })
 });
