@@ -23,7 +23,7 @@ function throttle(fn, interval) {
 }
 
 /**
- * 函数节流
+ * 函数去抖
  * @param {Function} fn 需要包装的函数
  * @param {Number} delay 延迟执行时间
  */
