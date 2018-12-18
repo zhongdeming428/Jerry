@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 09:53:07
+ * @Last Modified time: 2018-12-18 16:12:38
  */
 
 const { join, throwTypeErr,slice } = require('../utils');
@@ -13,7 +13,8 @@ const {
   contains, 
   each,
   map,
-  isObject 
+  isObject ,
+  isUndefined
 } = require('./Util');
 
 /**
@@ -36,9 +37,8 @@ function repeat(str, num) {
 function insertStr(str = '', notation = ',', distance = 3) {
   if (!isString(str) || !isString(notation) || !isInt(distance)) throwTypeErr('insertStr 参数不合法！');
   if (str === '' || distance === 0 || notation === '') return str;
-  let cuttedStr = cutStr(str, distance, -1),
-      res = cuttedStr.join(notation);
-  return res;
+  let cuttedStr = cutStr(str, distance, -1);
+  return cuttedStr.join(notation);
 }
 
 /**
@@ -74,8 +74,7 @@ function trim(str) {
  */
 function toPsw(str) {
   if (!isString(str)) throwTypeErr('toPsw 参数不合法！');
-  let len = str.length;
-  return repeat('*', len);
+  return hideWithFormat(str);
 }
 
 /**
@@ -130,6 +129,31 @@ function cutStr(str, distance, direction) {
   return direction === -1 ? map(res.reverse(), arr => slice.call(arr).reverse().join('')) : res;
 }
 
+/**
+ * 截断字符串，超出部分用省略号代替
+ * @param {String} str 要截断的字符串
+ * @param {Number} len 留下的长度
+ */
+function truncate(str, len) {
+  if (!isString(str) || !isInt(len)) throwTypeErr('truncate 参数不合法！');
+  return str.substring(0, len) + (len >= str.length ? '' : '……');
+}
+
+/**
+ * 按指定格式遮掩字符串的部分字符
+ * @param {String} str 要遮掩的字符串
+ * @param {String} format 指定遮掩格式的字符串，与 str 等长，'*' 为遮掩符，不传值时遮盖 str 的所有字符
+ */
+function hideWithFormat(str, format) {
+  if (isUndefined(format)) return repeat('*', str.length);
+  if (!isString(str) || !isString(format) || str.length !== format.length) throwTypeErr('hideWithFormat 参数不合法！');
+  let res = '';
+  each(str, (v, k, o) => {
+    res += format[k] === '*' ? '*' : v;
+  });
+  return res;
+}
+
 module.exports = {
   repeat,
   insertStr,
@@ -139,5 +163,7 @@ module.exports = {
   toPsw,
   getUrlParam,
   setUrlParam,
-  cutStr
+  cutStr,
+  truncate,
+  hideWithFormat
 };

@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:04 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 14:33:05
+ * @Last Modified time: 2018-12-18 17:16:03
  */
 
 const expect = require('expect.js');
@@ -10,6 +10,7 @@ const {
   max,
   min,
   sum,
+  avg,
   intersection,
   union,
   difference,
@@ -28,8 +29,6 @@ describe('*************************************测试 Array*********************
       expect(max([1, '2', 3])).to.equal(3);
       expect(max([1, 2, 'a']) !== max([1, 2, 'a'])).to.equal(true);
       expect(max([10, 23, 13])).to.equal(23);
-      expect(max('1234')).to.equal(4);
-      expect(max({'0': 1, '1': 2, length: 2})).to.equal(2);
     });
   });
   describe('测试 min', function() {
@@ -43,8 +42,6 @@ describe('*************************************测试 Array*********************
       expect(min([5, '2', 3])).to.equal(2);
       expect(min([1, 2, 'a']) !== min([1, 2, 'a'])).to.equal(true);
       expect(min([10, 23, 13])).to.equal(10);
-      expect(min('1234')).to.equal(1);
-      expect(min({'0': 1, '1': 2, length: 2})).to.equal(1);
     });
   });
   describe('测试 sum', function() {
@@ -56,11 +53,9 @@ describe('*************************************测试 Array*********************
     });
     it('正确求和', function() {
       expect(sum([])).to.equal(undefined);
-      expect(sum('123')).to.equal('123');
-      expect(sum(['123', '456'])).to.equal('123456');
+      expect(sum([123, 456])).to.equal(579);
       expect(sum([1, 3, 5])).to.equal(9);
-      expect(sum(['Tom ', 'and ', 'Jerry'])).to.equal('Tom and Jerry');
-      expect(sum({'0': 100, '1': 1, 'length': 2})).to.equal(101);
+      expect(sum([0.1, 0.2])).to.equal(0.3);
     });
   });
   describe('测试 intersection', function() {
@@ -74,8 +69,6 @@ describe('*************************************测试 Array*********************
       expect(intersection([], [])).to.eql([]);
       expect(intersection(['a', 'b', 'c'], ['c', 'x'])).to.eql(['c']);
       expect(intersection([], [1])).to.eql([]);
-      expect(intersection('123', '234')).to.eql(['2', '3']);
-      expect(intersection('数组的并集', '数组的所有元素的数组')).to.eql(['数', '组', '的']);
       expect(intersection([1, 2, 3, 4], [3, 4, 5, 6])).to.eql([3, 4]);
       expect(intersection([undefined, 1, 4], [4, 5, 6])).to.eql([4]);
       expect(intersection([undefined, 1], [2, undefined])).to.eql([undefined]);
@@ -145,6 +138,19 @@ describe('*************************************测试 Array*********************
       expect(difference([1], [])).to.eql([1]);
       expect(difference([1, 2, 3], [2])).to.eql([1, 3]);
       expect(difference([1, '2', 3], [2])).to.eql([1, '2', 3]);
+    });
+  });
+  describe('测试 avg', function() {
+    it('非法参数报错', function() {
+      expect(() => {avg('123')}).to.throwError();
+      expect(() => {avg(false, true)}).to.throwError();
+    });
+    it('返回正确结果', function() {
+      expect(avg([1, 2, 3])).to.be(2);
+      expect(avg([12, 23, 34])).to.be(23);
+      expect(avg([11, 22, 33])).to.be(22);
+      expect(avg([12, 13, -1])).to.be(8);
+      expect(avg([110, 2, 5])).to.be(39);
     });
   });
 });

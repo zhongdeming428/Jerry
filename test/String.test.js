@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 10:13:31
+ * @Last Modified time: 2018-12-18 16:11:24
  */
 
 const expect = require('expect.js');
@@ -15,7 +15,9 @@ const {
   toPsw,
   getUrlParam,
   setUrlParam,
-  cutStr
+  cutStr,
+  truncate,
+  hideWithFormat
 } = require('../src/packages/String');
 
 describe('*************************************测试 String *************************************', function() {
@@ -186,6 +188,38 @@ describe('*************************************测试 String *******************
       expect(cutStr('abcdefg', 3, -1)).to.eql(['a', 'bcd', 'efg']);
       expect(cutStr('abcdefghijklmn', 3, 1)).to.eql(['abc', 'def', 'ghi', 'jkl', 'mn']);
       expect(cutStr('abcdefghijklmn', 3, -1)).to.eql(['ab', 'cde', 'fgh', 'ijk', 'lmn']);
+    });
+  });
+  describe('测试 truncate', function() {
+    it('校验参数', function() {
+      expect(() => {truncate(1)}).to.throwError();
+      expect(() => {truncate(false)}).to.throwError();
+      expect(() => {truncate({})}).to.throwError();
+      expect(() => {truncate(1, '12')}).to.throwError();
+      expect(() => {truncate('1', '12')}).to.throwError();
+      expect(() => {truncate('1', {})}).to.throwError();
+    });
+    it('正确截断字符串', function() {
+      expect(truncate('123', 2)).to.equal('12……');
+      expect(truncate('SJFDSKHGNVNJFKLkjsfdlkjdskgsdoiewjgkds', 12)).to.equal('SJFDSKHGNVNJ……');
+      expect(truncate('爱妃空间的说法奥斯卡级我让爱妃奥斯卡级VM 我', 11)).to.equal('爱妃空间的说法奥斯卡级……');
+    });
+  });
+  describe('测试 hideWithFormat', function() {
+    it('参数错误校验', function() {
+      expect(() => {hideWithFormat({})}).to.throwError();
+      expect(() => {hideWithFormat({}, false)}).to.throwError();
+      expect(() => {hideWithFormat('1', '12')}).to.throwError();
+      expect(() => {hideWithFormat(1, '12')}).to.throwError();
+      expect(() => {hideWithFormat(false, 1)}).to.throwError();
+    });
+    it('返回正确结果', function() {
+      expect(hideWithFormat('123', '2*2')).to.be('1*3');
+      expect(hideWithFormat('19828288282', '111****1111')).to.be('198****8282');
+      expect(hideWithFormat('123', '22*')).to.be('12*');
+      expect(hideWithFormat('123', '*22')).to.be('*23');
+      expect(hideWithFormat('123')).to.be('***');
+      expect(hideWithFormat('')).to.be('');
     });
   });
 });

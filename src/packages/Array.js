@@ -2,19 +2,20 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:09 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 14:32:50
+ * @Last Modified time: 2018-12-18 17:15:12
  */
 
-const { isArray, isArrayLike, reduce, each, contains, filter } = require('./Util');
+const { isArray, reduce, each, contains, filter } = require('./Util');
 const { throwTypeErr, slice } = require('../utils');
+const { add, div } = require('../packages/Number');
 
 /**
  * 求数组中的最大值
  * @param {Array} arr 要求值的数组
  */
 function max(arr) {
-  if (!isArray(arr) && !isArrayLike(arr)) throwTypeErr('max 参数不合法！');
-  return Math.max.apply(null, slice.call(arr));
+  if (!isArray(arr)) throwTypeErr('max 参数不合法！');
+  return Math.max(...arr);
 }
 
 /**
@@ -22,8 +23,8 @@ function max(arr) {
  * @param {Array} arr 要求值的数组
  */
 function min(arr) {
-  if (!isArray(arr) && !isArrayLike(arr)) throwTypeErr('min 参数不合法！');
-  return Math.min.apply(null, slice.call(arr));
+  if (!isArray(arr)) throwTypeErr('min 参数不合法！');
+  return Math.min(...arr);
 }
 
 /**
@@ -31,8 +32,16 @@ function min(arr) {
  * @param {Array} arr 要求和的数组
  */
 function sum(arr) {
-  if (!isArray(arr) && !isArrayLike(arr)) throwTypeErr('sum 参数不合法！')
-  return reduce(slice.call(arr), (acc, v) => acc + v);
+  if (!isArray(arr)) throwTypeErr('sum 参数不合法！')
+  return reduce(arr, (acc, v) => add(acc, v));
+}
+
+/**
+ * 求数组元素的均值
+ * @param {Array} arr 求均值的数组
+ */
+function avg(arr) {
+  return div(sum(arr), arr.length);
 }
 
 /**
@@ -40,7 +49,7 @@ function sum(arr) {
  * @param {Array} arr 接受的第一个数组
  */
 function intersection(arr) {
-  if (!isArray(arr) && !isArrayLike(arr)) throwTypeErr('intersection 参数不合法！');
+  if (!isArray(arr)) throwTypeErr('intersection 参数不合法！');
   let res = [];
   each(arr, v => {
     let i = 1;
@@ -81,7 +90,7 @@ function difference(...args) {
  * @param {Array} arr 要去重的数组
  */
 function removeDup(arr) {
-  if (!isArray(arr) && !isArrayLike(arr)) throwTypeErr('removeDup 参数不合法！');
+  if (!isArray(arr)) throwTypeErr('removeDup 参数不合法！');
   return reduce(arr, (acc, v) => {
     if (!contains(acc, v)) acc.push(v);
     return acc;
@@ -94,7 +103,7 @@ function removeDup(arr) {
  * @param {Boolean} shallow true 代表只展开一层，false 代表展开所有层，默认为 false
  */
 function flatten(arr, shallow = false) {
-  if (!isArray(arr) && !isArrayLike(arr)) throwTypeErr('flatten 参数不合法！');
+  if (!isArray(arr)) throwTypeErr('flatten 参数不合法！');
   let res = [];
   each(arr, v => {
     if (isArray(v)) shallow ? res.push(...v) : res.push(...flatten(v));
@@ -107,6 +116,7 @@ module.exports = {
   max,
   min,
   sum,
+  avg,
   intersection,
   union,
   difference,
