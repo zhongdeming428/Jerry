@@ -2,12 +2,12 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 09:47:57 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-14 10:19:02
+ * @Last Modified time: 2018-12-18 14:03:29
  */
 
 const { each, reduce, isNumber, isInt, isString } = require('../packages/Util');
 const { throwTypeErr } = require('../utils');
-const { repeat, insertStr } = require('./String');
+const { repeat, insertStr, cutStr } = require('./String');
 
 const paramLenErr = '参数长度不够！';
 
@@ -96,21 +96,37 @@ function toCurrency(num, notation = '￥', precision = 2) {
 function toChineseAmount(num) {
   if (!isNumber(num) || num < 0) throwTypeErr('toChineseAmount 参数非法！');
   const nums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'],
-        intUnits = ['仟', '佰', '拾', '亿', '仟', '佰', '拾', '万', '仟', '佰', '拾', '圆'].reverse(),
+        intUnits = ['', '拾', '佰', '仟'],
         floatUnits = ['角', '分'];
   let numStr = isInt(num) ? num + '.' : String(num.toFixed(2)),
-      intPart = numStr.split('.')[0].length === 1 && numStr.split('.')[0][0] === '0' ? [] : numStr.split('.')[0].split(''),
-      floatPart = numStr.split('.')[1][0] === '0' && intPart.length === 0 ? ['', numStr.split('.')[1][1]] : numStr.split('.')[1];
-  if (intPart.length > 12) throwTypeErr('toChineseAmout 参数过长！');
+      intPart = cutStr(numStr.split('.')[0], 4, -1),
+      floatPart = numStr.split('.')[1];
+  if (intPart.length > 3) throwTypeErr('toChineseAmout 参数过长！');
   let res = '';
-  each(intPart, (v, k, o) => {
-    res += `${nums[+v]}${intUnits[o.length - 1 - k]}`;
+  if (intPart.length === 1 && intPart[0] === '0') intPart = [];
+  each(intPart, (str, idx) => {
+    str = str.replace(/^(0+)([1-9]+)/g, (match, p1, p2, offset, string) => `${repeat('a', p1.length) + p2}`).replace(/^([1-9]+)(0+)([1-9]+)$/g, (match, p1, p2, p3, offset, string) => `${p1 + repeat('a', p2.length)}${p3}`);
+    str = str.replace(/([1-9]+)(0+)$/g, (match, p1, p2, offset, string) => `${p1 + repeat('b', p2.length)}`);
+    if (str !== '0000') {
+      each(str, (v, k, o) => {
+        if (v === 'a') res += 'a';
+        else if (v === 'b') res += 'b';
+        else {
+          let tmp = nums[+v] === '零' ? `${nums[+v]}` : `${nums[+v]}${intUnits[o.length - k - 1]}`;
+          res += tmp;
+        }
+      });
+    }
+    res = res.replace(/a+/g, '零').replace(/b+/g, '');
+    if (str === '0000' && idx === 1 && intPart.length === 3) return;  // 一亿元整的时候省略万字。
+    res += ['圆', '万', '亿'][intPart.length - 1 - idx];
   });
   if (floatPart.length !== 0) {
     each(floatPart, (v, k, o) => {
       if (v === '' && k === 0) return;
       res += `${nums[+v]}${floatUnits[k]}`;
     });
+    if (intPart.length === 0 && floatPart[0] === '0') res = res.replace('零角', '');
   }
   return res.replace('零角', '零').replace('零分', '');
 }

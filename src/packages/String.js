@@ -2,16 +2,17 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-15 14:57:21
+ * @Last Modified time: 2018-12-18 09:53:07
  */
 
-const { join, throwTypeErr } = require('../utils');
+const { join, throwTypeErr,slice } = require('../utils');
 const { 
   isString, 
   isNumber, 
   isInt, 
   contains, 
-  each, 
+  each,
+  map,
   isObject 
 } = require('./Util');
 
@@ -35,17 +36,8 @@ function repeat(str, num) {
 function insertStr(str = '', notation = ',', distance = 3) {
   if (!isString(str) || !isString(notation) || !isInt(distance)) throwTypeErr('insertStr 参数不合法！');
   if (str === '' || distance === 0 || notation === '') return str;
-  let arr = str.split(''),
-      len = arr.length,
-      emptyCharCount = distance - (len % distance === 0 ? distance : len % distance),
-      res = '';
-  while(emptyCharCount-- > 0) {
-    arr.unshift('');
-  }
-  for (let i = 0; i < arr.length; i++) {
-    if (i % distance === 0 && i !== 0) res += notation;
-    res += arr[i];
-  }
+  let cuttedStr = cutStr(str, distance, -1),
+      res = cuttedStr.join(notation);
   return res;
 }
 
@@ -117,6 +109,27 @@ function setUrlParam(obj) {
   return res.join('&');
 }
 
+/**
+ * 将字符串按指定间隔切割，返回字符串数组
+ * @param {String} str 要切割的字符串
+ * @param {Number} distance 切割间距
+ * @param {Number} direction 1 为正序切割，-1 为逆序切割
+ */
+function cutStr(str, distance, direction) {
+  if (!isString(str) || !isInt(distance) || !isInt(direction)) throwTypeErr('cutStr 参数不合法！');
+  let res = [], s = '';
+  direction === -1 ? str = slice.call(str).reverse().join('') : null;
+  each(str, (v, k, o) => {
+    s += v;
+    if ((k + 1) % distance === 0) {
+      res.push(s);
+      s = '';
+    }
+  });
+  if (s !== '') res.push(s);
+  return direction === -1 ? map(res.reverse(), arr => slice.call(arr).reverse().join('')) : res;
+}
+
 module.exports = {
   repeat,
   insertStr,
@@ -125,5 +138,6 @@ module.exports = {
   trim,
   toPsw,
   getUrlParam,
-  setUrlParam
+  setUrlParam,
+  cutStr
 };
