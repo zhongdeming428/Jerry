@@ -2,12 +2,22 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:09 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 17:15:12
+ * @Last Modified time: 2018-12-19 10:28:04
  */
 
-const { isArray, reduce, each, contains, filter } = require('./Util');
+const { 
+  isArray, 
+  isFunction, 
+  isFalsy, 
+  isString,
+  reduce, 
+  each, 
+  map,
+  contains, 
+  filter 
+} = require('./Util');
 const { throwTypeErr, slice } = require('../utils');
-const { add, div } = require('../packages/Number');
+const { add, div, sub, randomInt } = require('../packages/Number');
 
 /**
  * 求数组中的最大值
@@ -42,6 +52,16 @@ function sum(arr) {
  */
 function avg(arr) {
   return div(sum(arr), arr.length);
+}
+
+/**
+ * 求数组中所有元素的方差
+ * @param {Array} arr 要求方差的数组
+ */
+function variance(arr) {
+  let average = avg(arr),
+      sumOfSquares = reduce(arr, (acc, v) => add(acc, Math.pow(sub(v, average), 2)), 0);
+  return div(sumOfSquares, arr.length);
 }
 
 /**
@@ -112,6 +132,60 @@ function flatten(arr, shallow = false) {
   return res;
 }
 
+/**
+ * 数组随机洗牌，返回一个新数组，采用 Fisher–Yates shuffle 的改进算法
+ * @param {Array} arr 要洗牌的数组
+ */
+function shuffle(arr) {
+  let len = arr.length,
+      newArr = slice.call(arr);
+  while(--len) {
+    let idx = randomInt(0, len),
+        tmp = newArr[len];
+    newArr[len] = newArr[idx];
+    newArr[idx] = tmp;
+  }
+  return newArr;
+}
+
+/**
+ * 根据回调函数的结果对数组元素进行归类，返回一个对象，每个属性都是一个类别，值为该分类元素组成的数组。
+ * @param {Array} arr 要归类的数组
+ * @param {Function} callback 返回类别的回调函数，接受三个标准参数
+ */
+function groupBy(arr, callback) {
+  if (!isArray(arr) || !isFunction(callback)) throwTypeErr('groupBy 参数不合法！');
+  let res = {};
+  each(arr, (v, k, o) => {
+    let categoryName = callback(v, k , o);
+    if (res[categoryName]) {
+      res[categoryName].push(v);
+    } else {
+      res[categoryName] = [v];
+    }
+  });
+  return res;
+}
+
+/**
+ * 去除数组中的 falsy 值，返回新数组
+ * @param {Array} arr 要移除 falsy 值的数组
+ */
+function compact(arr) {
+  if (!isArray(arr)) throwTypeErr('compact 参数不合法！');
+  return filter(arr, v => !isFalsy(v));
+}
+
+/**
+ * 获取数组中所有对象的指定属性，返回一个数组
+ * @param {Array} arr 数组参数
+ * @param {String} key 对象属性
+ */
+function pluck(arr, key) {
+  if (!isArray(arr) || !isString(key)) throwTypeErr('pluck 参数不合法！');
+  return map(arr, v => v[key]);
+}
+
 module.exports = {
   max,
   min,
@@ -121,5 +195,10 @@ module.exports = {
   union,
   difference,
   removeDup,
-  flatten
+  flatten,
+  variance,
+  shuffle,
+  groupBy,
+  compact,
+  pluck
 };
