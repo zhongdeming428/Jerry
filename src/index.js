@@ -2,7 +2,7 @@
  * @Author: Russ Zhong
  * @Date: 2018-12-10 16:36:33
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 21:12:36
+ * @Last Modified time: 2018-12-19 10:00:57
  */
 
 const _Util = require('./packages/Util');
@@ -26,15 +26,15 @@ function Jerry(obj) {
   else return new Jerry(obj);
 }
 
-each(modules, (module) => {
-  each(module, (val, key) => {
+each(modules, m => {
+  each(m, (val, key) => {
     mixin(Jerry, {
-      [key]: module[key]
+      [key]: m[key]
     });
     mixin(Jerry.prototype, {
       [key]() {
         let args = slice.call(arguments);
-        let res = module[key].apply(this, [this._wrapped, ...args]);
+        let res = m[key].apply(this, [this._wrapped, ...args]);
         // 如果执行函数有返回结果就直接把结果返回，否则返回实例本身，实现链式调用。
         if (!isUndefined(res)) return res;
         return this;
