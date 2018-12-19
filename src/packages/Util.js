@@ -1,8 +1,8 @@
 /*
- * @Author: Russ Zhong 
- * @Date: 2018-12-10 17:13:16 
- * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 16:16:41
+ * @Author: Russ Zhong
+ * @Date: 2018-12-10 17:13:16
+ * @Last Modified by: 格子熊
+ * @Last Modified time: 2018-12-19 22:10:41
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -195,19 +195,19 @@ function _arrContains(arr, subItme) {
 function _eq(a, b, aStack, bStack) {
   if (a === b) return a !== 0 || 1 / a === 1 / b;
   if (a == null || b == null) return false;
-  
+
   if (a !== a) return b !== b;
-  
+
   var type = typeof a;
   if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
-  
+
   return _deepEqual(a, b, aStack, bStack);
 };
 
 function _deepEqual(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
-  
+
   switch (className) {
       case '[object RegExp]':
       case '[object String]':
@@ -232,11 +232,11 @@ function _deepEqual(a, b, aStack, bStack) {
           return false;
       }
   }
-  
+
   aStack = aStack || [];
   bStack = bStack || [];
   var length = aStack.length;
-  
+
   while (length--) {
     if (aStack[length] === a) return bStack[length] === b;
   }
@@ -299,6 +299,27 @@ function has(obj, key) {
     return true;
   }
   return hasOwnProp.call(obj, key);
+}
+
+/**
+ * 深拷贝 deepClone
+ * @param {Any} set 深拷贝对象
+ */
+function deepClone(set = {}) {
+  if (!set || typeof set !== 'object') {
+    return set;
+  }
+  let cloneSet = isArray(set) ? [] : {};
+  for (let key in set) {
+    if (set.hasOwnProperty(key)) {
+      if (set[key] && typeof set[key] === 'object') {
+        cloneSet[key] = deepClone(set[key]);
+      } else {
+        cloneSet[key] = set[key];
+      }
+    }
+  }
+  return cloneSet;
 }
 
 /**
@@ -365,6 +386,7 @@ module.exports = {
   keys,
   has,
   equals,
+  deepClone,
   setCookie,
   getCookie,
   delCookie
