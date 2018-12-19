@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:04 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 19:47:11
+ * @Last Modified time: 2018-12-19 10:35:27
  */
 
 const expect = require('expect.js');
@@ -16,7 +16,11 @@ const {
   difference,
   removeDup,
   flatten,
-  variance
+  variance,
+  shuffle,
+  groupBy,
+  compact,
+  pluck
 } = require('../src/packages/Array');
 
 describe('*************************************测试 Array*************************************', function() {
@@ -167,5 +171,112 @@ describe('*************************************测试 Array*********************
       expect(variance([1, 2, 3, 4, 5])).to.be(2);
       expect(variance([-1, 2, 3])).to.be(78/27);
     });
-  })
+  });
+  describe('测试 shuffle', function() {
+    it('非法参数报错', function() {
+      expect(() => {shuffle()}).to.throwError();
+    });
+    it('随机洗牌', function() {
+      // expect(shuffle([1, 2, 3])).to.eql([3, 2, 1]);
+      // expect(shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])).to.eql([3, 2, 1]);
+      // expect(shuffle(['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'])).to.eql([3, 2, 1]);
+    });
+  });
+  describe('测试 groupBy', function() {
+    it('非法参数报错', function() {
+      expect(() => {groupBy()}).to.throwError();
+      expect(() => {groupBy('')}).to.throwError();
+      expect(() => {groupBy(false)}).to.throwError();
+      expect(() => {groupBy({})}).to.throwError();
+      expect(() => {groupBy({}, {})}).to.throwError();
+    });
+    it('正确归类', function() {
+      expect(groupBy([1, 2, 3], v => String(v))).to.eql({'1': [1], '2': [2], '3': [3]});
+      expect(groupBy([1, 2, 3], v => String(1))).to.eql({'1': [1, 2, 3]});
+      expect(groupBy([{
+        name: 'Jerry',
+        age: 12
+      }, {
+        name: 'Tom', 
+        age: 13
+      }, {
+        name: 'Jerry', 
+        age: 12
+      }], v => String(v.age))).to.eql({'12': [{
+        name: 'Jerry',
+        age: 12
+      }, {
+        name: 'Jerry', 
+        age: 12
+      }], 
+    '13': [{
+      name: 'Tom', 
+      age: 13
+    }]
+    });
+    });
+  });
+  describe('测试 compact', function() {
+    it('错误参数报错', function() {
+      expect(() => {
+        compact('');
+      }).to.throwError();
+      expect(() => {
+        compact(true);
+      }).to.throwError();
+      expect(() => {
+        compact(123);
+      }).to.throwError();
+      expect(() => {
+        compact({});
+      }).to.throwError();
+      expect(() => {
+        compact();
+      }).to.throwError();
+    });
+    it('正确 compact 数组', function() {
+      expect(compact([1, 2, 3, false])).to.eql([1, 2, 3]);
+      expect(compact([1, undefined, 2, 3, false])).to.eql([1, 2, 3]);
+      expect(compact([1, 2, NaN, 3, false])).to.eql([1, 2, 3]);
+      expect(compact([1, 2, 3, '', 4, false])).to.eql([1, 2, 3, 4]);
+      expect(compact([1, 2, null, 3, false])).to.eql([1, 2, 3]);
+    });
+  });
+  describe('测试 pluck', function() {
+    it('非法参数报错', function() {
+      expect(() => {
+        pluck()
+      }).to.throwError();
+      expect(() => {
+        pluck({})
+      }).to.throwError();
+      expect(() => {
+        pluck({}, '')
+      }).to.throwError();
+      expect(() => {
+        pluck(', ', '')
+      }).to.throwError();
+      expect(() => {
+        pluck(true, '')
+      }).to.throwError();
+      expect(() => {
+        pluck({}, [])
+      }).to.throwError();
+    });
+    it('正确获取对象属性值', function() {
+      expect(pluck([{
+        name: 'Jerry'
+      },{
+        name: 'Tom'
+      }], 'name')).to.eql(['Jerry', 'Tom']);
+      expect(pluck([{
+        age: 12
+      },{
+        age: 13
+      },{
+        age: 14
+      }], 'age')).to.eql([12, 13, 14]);
+      expect(pluck(['a', 'abc', 'abcde'], 'length')).to.eql([1, 3, 5]);
+    });
+  });
 });
