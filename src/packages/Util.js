@@ -306,19 +306,20 @@ function has(obj, key) {
  * @param {Any} set 深拷贝对象
  */
 function deepClone(set = {}) {
-  if (!set || typeof set !== 'object') {
-    return set;
-  }
+  if (!set || typeof set !== 'object') return set;
+  if (isDate(set)) return new Date(set);
+  if (set.nodeType && isFunction(item.cloneNode)) return set.cloneNode(true);
+  
   let cloneSet = isArray(set) ? [] : {};
-  for (let key in set) {
-    if (set.hasOwnProperty(key)) {
+  each(set, key => {
+    if (hasOwnProp.call(set, key)) {
       if (set[key] && typeof set[key] === 'object') {
         cloneSet[key] = deepClone(set[key]);
       } else {
         cloneSet[key] = set[key];
       }
     }
-  }
+  });
   return cloneSet;
 }
 
