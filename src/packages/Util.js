@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 10:24:43
+ * @Last Modified time: 2018-12-20 11:02:50
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -43,7 +43,8 @@ function isPlainObject(param) {
 
 function isObject(param) {
   if (isUndefined(param) || isNull(param)) return false;
-  return toString.call(param) === '[object Object]';
+  let type = typeof param;
+  return type === 'function' || type === 'object';
 }
 
 function isString(param) {

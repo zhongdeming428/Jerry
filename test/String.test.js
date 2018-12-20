@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 16:11:24
+ * @Last Modified time: 2018-12-20 11:05:41
  */
 
 const expect = require('expect.js');
@@ -158,7 +158,7 @@ describe('*************************************测试 String *******************
       expect(() => {setUrlParam('')}).to.throwError();
       expect(() => {setUrlParam(12)}).to.throwError();
       expect(() => {setUrlParam(false)}).to.throwError();
-      expect(() => {setUrlParam(function() {})}).to.throwError();
+      expect(() => {setUrlParam(function() {})}).to.not.throwError();
       expect(() => {setUrlParam(Symbol(12))}).to.throwError();
     });
     it('确保正确转化', function() {

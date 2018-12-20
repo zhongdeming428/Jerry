@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 11:06:50 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 10:51:14
+ * @Last Modified time: 2018-12-20 11:06:02
  */
 
 const expect = require('expect.js');
@@ -133,11 +133,11 @@ describe('*************************************测试工具函数***************
     it('包装的对象返回 false', function() {
       expect(isObject(String(12))).to.not.be.ok();
     });
-    it('函数返回 false', function() {
-      expect(isObject(function() {})).to.not.be.ok();
+    it('函数返回 true', function() {
+      expect(isObject(function() {})).to.be.ok();
     });
-    it('数组返回 false', function() {
-      expect(isObject([])).to.not.be.ok();
+    it('数组返回 true', function() {
+      expect(isObject([])).to.be.ok();
     });
     it('字面量数字返回 false', function() {
       expect(isObject(12)).to.not.be.ok();
