@@ -2,34 +2,49 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 20:26:51 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 21:21:54
+ * @Last Modified time: 2018-12-20 09:12:57
  */
 
 const { isInBrowser } = require('../utils');
 const { each } = require('./Util');
 
+/**
+ * 兼容模式的事件绑定函数
+ * @param {Element} el 要绑定事件的 DOM 元素
+ * @param {String} eventType 事件类型
+ * @param {Function} callback 事件处理函数
+ */
 function addEvent(el, eventType, callback) {
   if (!isInBrowser()) return;
-  if (!!window.addEventListener) {
+  if (window.addEventListener) {
     el.addEventListener(eventType, callback);
-  } else if (!!window.attachEvent) {
+  } else if (window.attachEvent) {
     el.attachEvent('on' + eventType, callback);
   } else {
     el['on' + eventType] = callback;
   }
 }
 
+/**
+ * 兼容模式的事件解绑函数
+ * @param {Element} el 要解绑事件的 DOM 元素
+ * @param {String} eventType 事件类型
+ * @param {Function} callback 事件处理函数
+ */
 function removeEvent(el, eventType, callback) {
   if (!isInBrowser()) return;
-  if (!!window.removeEventListener) {
+  if (window.removeEventListener) {
     el.removeEventListener(eventType, callback);
-  } else if (!!window.detachEvent) {
+  } else if (window.detachEvent) {
     el.detachEvent('on' + eventType, callback);
   } else {
     el['on' + eventType] = callback;
   }
 }
 
+/**
+ * 自定义事件中心
+ */
 class CustomEvents {
   constructor() {
     this.callbacks = {};
@@ -50,8 +65,31 @@ class CustomEvents {
   }
 }
 
+let callbacks = [];
+
+function ready(fn) {
+  if (!isInBrowser() || document.readyState === 'complete') return fn();
+  callbacks.push(fn);
+
+  let domContentLoadedHandler = () => {
+    removeEvent(document, 'DOMContentLoaded', domContentLoadedHandler);
+    removeEvent(document, 'readystatechange', readyStateChangeHandler);
+    removeEvent(window, 'load', loadHandler);
+    each(callbacks, fn => {
+      fn();
+    });
+    callbacks = [];
+  };
+  let readyStateChangeHandler = domContentLoadedHandler;
+  let loadHandler = readyStateChangeHandler;
+  addEvent(document, 'DOMContentLoaded', domContentLoadedHandler);
+  addEvent(document, 'readystatechange', readyStateChangeHandler);
+  addEvent(window, 'load', loadHandler);
+}
+
 module.exports = {
   addEvent,
   removeEvent,
-  CustomEvents
+  CustomEvents,
+  ready
 };

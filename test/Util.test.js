@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 11:06:50 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 14:14:03
+ * @Last Modified time: 2018-12-20 13:30:44
  */
 
 const expect = require('expect.js');
@@ -31,7 +31,9 @@ const {
   contains,
   keys,
   has,
-  equals
+  equals,
+  deepClone,
+  randomInt
 } = require('../src/packages/Util');
 
 describe('*************************************测试工具函数*************************************', function() {
@@ -132,11 +134,11 @@ describe('*************************************测试工具函数***************
     it('包装的对象返回 false', function() {
       expect(isObject(String(12))).to.not.be.ok();
     });
-    it('函数返回 false', function() {
-      expect(isObject(function() {})).to.not.be.ok();
+    it('函数返回 true', function() {
+      expect(isObject(function() {})).to.be.ok();
     });
-    it('数组返回 false', function() {
-      expect(isObject([])).to.not.be.ok();
+    it('数组返回 true', function() {
+      expect(isObject([])).to.be.ok();
     });
     it('字面量数字返回 false', function() {
       expect(isObject(12)).to.not.be.ok();
@@ -626,6 +628,90 @@ describe('*************************************测试工具函数***************
       expect(contains('xyz', 'xz')).to.equal(false);
       expect(contains({'0': 12, length: 1}, 12)).to.equal(true);
       expect(contains({'0': 12, '1': 'name', length: 2}, 'name')).to.equal(true);
+    });
+  });
+  describe('测试 deepClone', function() {
+    it('基础数据类型和函数直接返回', function() {
+      expect(deepClone()).to.equal(undefined);
+      expect(deepClone(false)).to.equal(false);
+      expect(deepClone(12)).to.equal(12);
+      expect(deepClone('13')).to.equal('13');
+      expect(deepClone(Infinity)).to.equal(Infinity);
+      expect(deepClone(null)).to.equal(null);
+      function a() {}
+      expect(deepClone(a)).to.equal(a);
+    });
+    it('测试数组拷贝', function() {
+      let arr = [];
+      expect(deepClone(arr)).to.eql(arr);
+      expect(deepClone(arr)).to.not.equal(arr);
+      let arr1 = [1,2,3,[123]];
+      let arr2 = deepClone(arr1);
+      expect(arr2).to.eql(arr1);
+      expect(arr2).to.not.equal(arr1);
+      expect(arr2[3]).to.eql(arr1[3]);
+      expect(arr2[3]).to.not.equal(arr1[3]);
+      arr2[3].push(12);
+      expect(arr1[3]).length(1);
+      expect(arr2[3]).length(2);
+      let arr3 = [1,2,{x:'y'}];
+      let arr4 = deepClone(arr3);
+      expect(arr4).to.eql(arr3);
+      expect(arr3[2]).to.eql(arr4[2]);
+      expect(arr3[2]).to.not.equal(arr4[2]);
+      arr4[2].x = 'z';
+      expect(arr4).to.not.eql(arr3);
+      expect(arr3[2].x).to.equal('y');
+    });
+    it('深拷贝字面量对象', function() {
+      let o = {};
+      expect(o).to.equal(o);
+      expect(deepClone(o)).to.not.equal(o);
+      expect(deepClone(o)).to.eql(o);
+      let obj = { name: 'Jerry', version: '0.0.1' };
+      expect(deepClone(obj)).to.not.equal(obj);
+      expect(deepClone(obj)).to.eql(obj);
+      let obj1 = { name: 'Jerry', version: '0.0.1', fs: [1,2,3,{x:'y', z:{q:'zz'}}] };
+      let obj2 = deepClone(obj1);
+      expect(obj2).to.not.equal(obj1);
+      expect(obj2).to.eql(obj1);
+      obj1.fs.push(2);
+      expect(obj1.fs).to.not.eql(obj2);
+      obj1.fs[3].x = 'z';
+      expect(obj2.fs[3].x).to.equal('y');
+    });
+    it('深拷贝自定义对象', function() {
+      function P() {
+        this.name = 'Jerry';
+        this.fs = [1, 2, 3]
+      }
+      let p = new P();
+      let p1 = deepClone(p);
+      expect(deepClone(p1)).to.eql(p);
+      expect(deepClone(p1)).to.not.equal(p);
+      p1.fs.push(12);
+      expect(p1.fs).length(4);
+      expect(p.fs).length(3);
+    });
+  });
+  describe('测试 randomInt', function() {
+    it('非法参数报错', function() {
+      for (let i = 0; i< 100; i++) {
+        expect(() => {randomInt()}).to.throwError();
+        expect(() => {randomInt(105)}).to.throwError();
+        expect(() => {randomInt(105, 100)}).to.throwError();
+      }
+    });
+    it('返回正确结果', function() {
+      for (let i = 0; i < 100; i++) {
+        expect(randomInt(0, 1)).within(0, 1);
+      }
+      for (let i = 0; i < 100; i++) {
+        expect(randomInt(5, 7)).within(5, 7);
+      }
+      for (let i = 0; i< 100; i++) {
+        expect(randomInt(100, 105)).within(100, 105);
+      }
     });
   });
 });

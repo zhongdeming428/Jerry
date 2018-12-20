@@ -2,10 +2,10 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 09:47:57 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-19 09:44:25
+ * @Last Modified time: 2018-12-20 13:43:14
  */
 
-const { each, reduce, isNumber, isInt, isString, isUndefined } = require('../packages/Util');
+const { each, reduce, isNumber, isInt, isString } = require('../packages/Util');
 const { throwTypeErr } = require('../utils');
 const { repeat, insertStr, cutStr } = require('./String');
 
@@ -70,7 +70,7 @@ function factorial(num) {
   let res = 1;
   do {
     res = res * num--;
-  } while(num > 0)
+  } while (num > 0);
   return res;
 }
 
@@ -82,7 +82,7 @@ function factorial(num) {
  */
 function toCurrency(num, notation = '￥', precision = 2) {
   if (!isNumber(num) || !isString(notation) || !isInt(precision)) throwTypeErr('toCurrency 参数不合法！');
-  let numStr = isInt(num) ? num.toFixed(precision) : String(num.toFixed(precision))
+  let numStr = isInt(num) ? num.toFixed(precision) : String(num.toFixed(precision)),
       intPart = numStr.split('.')[0],
       floatPart = numStr.split('.')[1];
   let intStr = insertStr(intPart);
@@ -105,8 +105,8 @@ function toChineseAmount(num) {
   let res = '';
   if (intPart.length === 1 && intPart[0] === '0') intPart = [];
   each(intPart, (str, idx) => {
-    str = str.replace(/^(0+)([1-9]+)/g, (match, p1, p2, offset, string) => `${repeat('a', p1.length) + p2}`).replace(/^([1-9]+)(0+)([1-9]+)$/g, (match, p1, p2, p3, offset, string) => `${p1 + repeat('a', p2.length)}${p3}`);
-    str = str.replace(/([1-9]+)(0+)$/g, (match, p1, p2, offset, string) => `${p1 + repeat('b', p2.length)}`);
+    str = str.replace(/^(0+)([1-9]+)/g, (match, p1, p2) => `${repeat('a', p1.length) + p2}`).replace(/^([1-9]+)(0+)([1-9]+)$/g, (match, p1, p2, p3) => `${p1 + repeat('a', p2.length)}${p3}`);
+    str = str.replace(/([1-9]+)(0+)$/g, (match, p1, p2) => `${p1 + repeat('b', p2.length)}`);
     if (str !== '0000') {
       each(str, (v, k, o) => {
         if (v === 'a') res += 'a';
@@ -122,7 +122,7 @@ function toChineseAmount(num) {
     res += ['圆', '万', '亿'][intPart.length - 1 - idx];
   });
   if (floatPart.length !== 0) {
-    each(floatPart, (v, k, o) => {
+    each(floatPart, (v, k) => {
       if (v === '' && k === 0) return;
       res += `${nums[+v]}${floatUnits[k]}`;
     });
@@ -152,15 +152,6 @@ function toDate(num, delimeter) {
   return insertStr(String(num), delimeter, 2).replace(delimeter, '');
 }
 
-/**
- * 返回指定区间的随机整数，左闭右闭，即返回结果位于 [start, end]
- * @param {Number} start 最小值
- * @param {Number} end 最大值
- */
-function randomInt(start, end) {
-  if (isUndefined(start) || isUndefined(end) ||end < start) throwTypeErr('randomInt 参数不合法！');
-  return Math.floor(Math.random() * (end + 1 - start) + start);
-}
 
 module.exports = {
   add: _calcReducer('add'),
@@ -171,6 +162,5 @@ module.exports = {
   toCurrency,
   toChineseAmount,
   toPhoneNumber,
-  toDate,
-  randomInt
+  toDate
 };

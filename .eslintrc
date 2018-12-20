@@ -10,7 +10,8 @@
     "Jerry": true,
     "require": true,
     "module": true,
-    "global": true
+    "global": true,
+    "Symbol": true
   },
   "extends": "eslint:recommended",
   "rules": {
@@ -24,6 +25,7 @@
     "array-bracket-spacing": 2,
     "computed-property-spacing": 2,
     "no-console": 0,
-    "space-before-function-paren": ["error", "never"]
+    "space-before-function-paren": ["error", "never"],
+    "keyword-spacing": ["error", { "before": true, "after": true }]
   }
 }

@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 16:11:24
+ * @Last Modified time: 2018-12-20 13:27:57
  */
 
 const expect = require('expect.js');
@@ -17,7 +17,8 @@ const {
   setUrlParam,
   cutStr,
   truncate,
-  hideWithFormat
+  hideWithFormat,
+  randomColor
 } = require('../src/packages/String');
 
 describe('*************************************测试 String *************************************', function() {
@@ -158,7 +159,7 @@ describe('*************************************测试 String *******************
       expect(() => {setUrlParam('')}).to.throwError();
       expect(() => {setUrlParam(12)}).to.throwError();
       expect(() => {setUrlParam(false)}).to.throwError();
-      expect(() => {setUrlParam(function() {})}).to.throwError();
+      expect(() => {setUrlParam(function() {})}).to.not.throwError();
       expect(() => {setUrlParam(Symbol(12))}).to.throwError();
     });
     it('确保正确转化', function() {
@@ -221,5 +222,13 @@ describe('*************************************测试 String *******************
       expect(hideWithFormat('123')).to.be('***');
       expect(hideWithFormat('')).to.be('');
     });
+  });
+  describe('测试 randomColor', function() {
+    it('测试 rgb 格式', function() {
+      // expect(randomColor(true)).to.equal();
+    });
+    it('测试非 rgb 格式', function() {
+      // expect(randomColor()).to.equal();
+    })
   });
 });

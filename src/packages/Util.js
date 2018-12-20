@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 16:16:41
+ * @Last Modified time: 2018-12-20 11:17:08
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -12,27 +12,27 @@ const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../u
  * @param {Object} des 拷贝的目标对象
  * @param {Object} source 拷贝的源对象
  */
-function mixin (des, source) {
+function mixin(des, source) {
   if (arguments.length === 0) throwTypeErr('mixin 函数的参数个数不得小于 1！');
   if (des && source) _mixin(des, source);
 }
 
-function _mixin (dest, source) {
+function _mixin(dest, source) {
   for (let key in source) {
     dest[key] = source[key];
   }
   return dest;
 }
 
-function isFunction (param) {
+function isFunction(param) {
   return toString.call(param) === '[object Function]';
 }
 
-function isNumber (param) {
+function isNumber(param) {
   return toString.call(param) === '[object Number]' && !isNaN(param);
 }
 
-function isPlainObject (param) {
+function isPlainObject(param) {
   if (!isObject(param)) return false;
   let proto = param;
   while (Object.getPrototypeOf(proto) !== null) {
@@ -41,13 +41,14 @@ function isPlainObject (param) {
   return Object.getPrototypeOf(param) === proto;
 }
 
-function isObject (param) {
+function isObject(param) {
   if (isUndefined(param) || isNull(param)) return false;
-  return toString.call(param) === '[object Object]';
+  let type = typeof param;
+  return type === 'function' || type === 'object';
 }
 
 function isString(param) {
-  return toString.call(param) === '[object String]'
+  return toString.call(param) === '[object String]';
 }
 
 function isArray(param) {
@@ -136,7 +137,7 @@ function map(param, callback) {
     res.push(callback(v, k, o));
   });
   return res;
-};
+}
 
 /**
  * 迭代数组、类数组对象或对象，返回一个累计值
@@ -179,11 +180,11 @@ function contains(param, subItem) {
  * @param {Any} subItme 指定项
  */
 function _arrContains(arr, subItme) {
-  for(let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (equals(arr[i], subItme)) return true;
   }
   return false;
-};
+}
 
 /**
  * 判断变量是否相等的入口函数，用 underscore 的代码实现
@@ -195,31 +196,31 @@ function _arrContains(arr, subItme) {
 function _eq(a, b, aStack, bStack) {
   if (a === b) return a !== 0 || 1 / a === 1 / b;
   if (a == null || b == null) return false;
-  
+
   if (a !== a) return b !== b;
-  
+
   var type = typeof a;
   if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
-  
+
   return _deepEqual(a, b, aStack, bStack);
-};
+}
 
 function _deepEqual(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
-  
+
   switch (className) {
-      case '[object RegExp]':
-      case '[object String]':
-          return '' + a === '' + b;
-      case '[object Number]':
-          if (+a !== +a) return +b !== +b;
-          return +a === 0 ? 1 / +a === 1 / b : +a === +b;
-      case '[object Date]':
-      case '[object Boolean]':
-          return +a === +b;
-      case '[object Symbol]':
-          return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
+    case '[object RegExp]':
+    case '[object String]':
+      return '' + a === '' + b;
+    case '[object Number]':
+      if (+a !== +a) return +b !== +b;
+      return +a === 0 ? 1 / +a === 1 / b : +a === +b;
+    case '[object Date]':
+    case '[object Boolean]':
+      return +a === +b;
+    case '[object Symbol]':
+      return Symbol.prototype.valueOf.call(a) === Symbol.prototype.valueOf.call(b);
   }
 
   var areArrays = className === '[object Array]';
@@ -232,11 +233,11 @@ function _deepEqual(a, b, aStack, bStack) {
           return false;
       }
   }
-  
+
   aStack = aStack || [];
   bStack = bStack || [];
   var length = aStack.length;
-  
+
   while (length--) {
     if (aStack[length] === a) return bStack[length] === b;
   }
@@ -260,7 +261,7 @@ function _deepEqual(a, b, aStack, bStack) {
   aStack.pop();
   bStack.pop();
   return true;
-};
+}
 
 /**
  * 判断两变量是否相等，{} 等于 {}、NaN 等于 NaN……
@@ -302,6 +303,28 @@ function has(obj, key) {
 }
 
 /**
+ * 深拷贝 deepClone
+ * @param {Any} set 深拷贝对象
+ */
+function deepClone(set) {
+  if (!set || typeof set !== 'object') return set;
+  if (isDate(set)) return new Date(set);
+  if (set.nodeType && isFunction(set.cloneNode)) return set.cloneNode(true);
+  
+  let cloneSet = isArray(set) ? [] : {};
+  each(set, (val, key) => {
+    if (hasOwnProp.call(set, key)) {
+      if (set[key] && typeof set[key] === 'object') {
+        cloneSet[key] = deepClone(set[key]);
+      } else {
+        cloneSet[key] = set[key];
+      }
+    }
+  });
+  return cloneSet;
+}
+
+/**
  * 设置 cookie
  * @param {String} key cookie 名称
  * @param {String} value cookie 的值
@@ -321,12 +344,12 @@ function setCookie(key, value, day) {
 function getCookie(key) {
   if (!isInBrowser()) return '';
   let cookie = window.document.cookie,
-      key_vals = cookie.split(';'),
+      keyVals = cookie.split(';'),
       res = '';
-  each(key_vals, key_val => {
-    let k = key_val.split('=')[0].replace(/\s/g, '');
+  each(keyVals, keyVal => {
+    let k = keyVal.split('=')[0].replace(/\s/g, '');
     if (k !== key) return;
-    res = key_val.split('=')[1];
+    res = keyVal.split('=')[1];
   });
   return res;
 }
@@ -337,6 +360,16 @@ function getCookie(key) {
  */
 function delCookie(key) {
   setCookie(key, '', -1);
+}
+
+/**
+ * 返回指定区间的随机整数，左闭右闭，即返回结果位于 [start, end]
+ * @param {Number} start 最小值
+ * @param {Number} end 最大值
+ */
+function randomInt(start, end) {
+  if (isUndefined(start) || isUndefined(end) || end < start) throwTypeErr('randomInt 参数不合法！');
+  return Math.floor(Math.random() * (end + 1 - start) + start);
 }
 
 module.exports = {
@@ -365,7 +398,9 @@ module.exports = {
   keys,
   has,
   equals,
+  deepClone,
   setCookie,
   getCookie,
-  delCookie
+  delCookie,
+  randomInt
 };

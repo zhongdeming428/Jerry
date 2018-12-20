@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-11 14:17:11 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 15:10:45
+ * @Last Modified time: 2018-12-20 11:16:10
  */
 
 // Functions in this module won't be exposed to users.
@@ -13,13 +13,14 @@ const slice = Array.prototype.slice;
 const join = Array.prototype.join;
 const hasOwnProp = Object.prototype.hasOwnProperty;
 
+
 const throwTypeErr = function(msg) {
   throw new TypeError(msg); 
 };
 
 const isInBrowser = function() {
   return window !== void 0 && self !== void 0 && self.self === self;
-}
+};
 
 
 module.exports = {
@@ -29,4 +30,4 @@ module.exports = {
   throwTypeErr,
   hasOwnProp,
   isInBrowser
-}
+};

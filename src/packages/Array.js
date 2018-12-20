@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:09 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-19 10:28:04
+ * @Last Modified time: 2018-12-20 13:33:02
  */
 
 const { 
@@ -14,10 +14,11 @@ const {
   each, 
   map,
   contains, 
-  filter 
+  filter,
+  randomInt
 } = require('./Util');
 const { throwTypeErr, slice } = require('../utils');
-const { add, div, sub, randomInt } = require('../packages/Number');
+const { add, div, sub } = require('../packages/Number');
 
 /**
  * 求数组中的最大值
@@ -42,7 +43,7 @@ function min(arr) {
  * @param {Array} arr 要求和的数组
  */
 function sum(arr) {
-  if (!isArray(arr)) throwTypeErr('sum 参数不合法！')
+  if (!isArray(arr)) throwTypeErr('sum 参数不合法！');
   return reduce(arr, (acc, v) => add(acc, v));
 }
 
@@ -139,7 +140,7 @@ function flatten(arr, shallow = false) {
 function shuffle(arr) {
   let len = arr.length,
       newArr = slice.call(arr);
-  while(--len) {
+  while (--len) {
     let idx = randomInt(0, len),
         tmp = newArr[len];
     newArr[len] = newArr[idx];
@@ -186,6 +187,17 @@ function pluck(arr, key) {
   return map(arr, v => v[key]);
 }
 
+/**
+ * 随机返回数组中的某一项
+ * @param {Array} arr 数组参数
+ */
+function pick(arr) {
+  if (!isArray(arr)) throwTypeErr('pick 参数不合法！');
+  let len = arr.length,
+      randomNum = randomInt(0, len - 1);
+  return arr[randomNum];
+}
+
 module.exports = {
   max,
   min,
@@ -200,5 +212,6 @@ module.exports = {
   shuffle,
   groupBy,
   compact,
-  pluck
+  pluck,
+  pick
 };
