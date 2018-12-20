@@ -308,7 +308,7 @@ function has(obj, key) {
 function deepClone(set = {}) {
   if (!set || typeof set !== 'object') return set;
   if (isDate(set)) return new Date(set);
-  if (set.nodeType && isFunction(item.cloneNode)) return set.cloneNode(true);
+  if (set.nodeType && isFunction(set.cloneNode)) return set.cloneNode(true);
   
   let cloneSet = isArray(set) ? [] : {};
   each(set, key => {
