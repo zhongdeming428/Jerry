@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha",
     "build": "rollup --config rollup.config.js",
-    "eslint": "eslint src/index.js"
+    "eslint": "eslint src"
   },
   "keywords": [],
   "author": "Russ Zhong",

@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:09 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-19 10:28:04
+ * @Last Modified time: 2018-12-20 08:51:03
  */
 
 const { 
@@ -42,7 +42,7 @@ function min(arr) {
  * @param {Array} arr 要求和的数组
  */
 function sum(arr) {
-  if (!isArray(arr)) throwTypeErr('sum 参数不合法！')
+  if (!isArray(arr)) throwTypeErr('sum 参数不合法！');
   return reduce(arr, (acc, v) => add(acc, v));
 }
 
