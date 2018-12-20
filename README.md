@@ -1,7 +1,7 @@
 <center><img src="./Jerry.png" alt="Jerry"/></center>
 
 
-这个项目是基于个人兴趣所写的一个个人认为比较使用的代码库，收录了一些日常开发中比较常用的功能代码，通过使用这个工具库可以节省一些写工具函数的时间。
+这个项目是基于个人兴趣所写的一个个人认为比较实用的代码库，收录了一些日常开发中比较常用的功能代码，通过使用这个工具库可以节省一些写工具函数的时间。
 
 如果你想为这个项目做贡献，请参考一下说明：
 
@@ -80,7 +80,7 @@ $(123).isNumber(); // true
 
 ### String 类
 
-**repeat** 
+**repeat**
 
 ***将指定字符串重复 n 次***
 
@@ -98,14 +98,14 @@ $.repeat('abc', 2); // 'abcabc'
 $('123').repeat(3); // '123123123'
 ```
 
-**insertStr** 
+**insertStr**
 
 ***对指定字符串从尾部开始按一定间隔插入指定字符***
 
 >@param {String} str 被处理的字符串
-> 
+>
 >@param {String} notation 要插入的符号
-> 
+>
 >@param {Number} distance 每隔几个字符插入
 >
 >返回新的字符串
@@ -117,7 +117,7 @@ $.insertStr('13873788888', '-', '4'); // 138-7378-8888
 $('13873788888').insertStr('-', 4); // 138-7378-8888
 ```
 
-**trimLeft** 
+**trimLeft**
 
 ***去除字符串左侧的空白***
 
@@ -132,7 +132,7 @@ $.trimLeft('   123'); // '123'
 $.trimLeft('\r\n\t123'); // '123'
 ```
 
-**trimRight** 
+**trimRight**
 
 ***去除字符串右侧的空白***
 
@@ -142,7 +142,7 @@ $.trimLeft('\r\n\t123'); // '123'
 
 使用示例请参考 `trimLeft`。
 
-**trim** 
+**trim**
 
 ***去除字符串两侧的空白***
 
@@ -152,7 +152,7 @@ $.trimLeft('\r\n\t123'); // '123'
 
 使用示例请参考 `trimLeft`。
 
-**toPsw** 
+**toPsw**
 
 ***将字符串密码化，可以充当某些输入框的过滤器***
 
@@ -254,9 +254,9 @@ $.factorial(5); // 120
 ***将数字进行千分位格式化，可以指定金币符号***
 
 >@param {Number} num 要转化的数字
-> 
+>
 >@param {String} notation 货币的符号，默认是‘￥’
-> 
+>
 >@param {Number} precision 转化精度，默认为 2
 >
 >返回格式化后的金额字符串
@@ -498,7 +498,7 @@ $.isElement({}); // false
 ***混淆函数，可以进行浅拷贝***
 
 >@param {Object} des 拷贝的目标对象
-> 
+>
 >@param {Object} source 拷贝的源对象
 
 使用示例：
@@ -513,7 +513,7 @@ $.mixin(dest, { age: 1 }); // dest 变成 { name: 'test', age: 1 };
 ***遍历数组、类数组对象或纯对象***
 
 >@param {Object|Array} param 要遍历的对象或数组
-> 
+>
 >@param {Function} callback 回调函数，接受三个参数：v 当前遍历项；k 当前索引或属性名； o 当前遍历的对象
 
 使用示例：
@@ -529,7 +529,7 @@ $.each({name: 'test', age: 1}, function(v, k, o) {
 ***遍历数组、类数组对象或纯对象，返回一个结果数组***
 
 >@param {Object|Array} param 要遍历的对象、数组或类数组对象
-> 
+>
 >@param {Function} callback 要使用的回调函数，接受三个参数：v 当前遍历项；k 当前索引或属性名； o 当前遍历的对象
 
 使用示例：
@@ -545,9 +545,9 @@ $.map({name: 'Jerry'}, function(v, k, o) {
 ***遍历数组、类数组对象或纯对象，返回一个累计值结果***
 
 >@param {Object|Array} param 要迭代的数组、类数组对象或对象
-> 
+>
 >@param {Function} callback 对每一项进行操作的回调函数，接收四个参数：acc 累加值、v 当前项、k 当前索引、o 当前迭代对象
-> 
+>
 >@param {Any} initVal 传入的初始值
 
 使用示例：
@@ -566,9 +566,9 @@ $.reduce({name: 'and', friend: 'Tom'}, function(acc, v, k, o) {
 **contains**
 
 ***检测字符串或数组或类数组对象是否包含某个项***
- 
+
 >@param {String|Array} param 要检测的数组或类数组对象
-> 
+>
 >@param {Any} subItem 要检测的项
 
 使用示例：
@@ -595,7 +595,7 @@ $.keys({name: 'Jerry'}); // ['name']
 ***判断某个对象自身（不是位于原型链）是否包含某个属性***
 
 >@param {Any} obj 任意值
-> 
+>
 >@param {String|Array} key 属性名
 
 使用示例：

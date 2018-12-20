@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-18 16:12:38
+ * @Last Modified time: 2018-12-20 08:54:54
  */
 
 const { join, throwTypeErr,slice } = require('../utils');
@@ -23,7 +23,7 @@ const {
  * @param {Number} num 要重复的次数
  */
 function repeat(str, num) {
-  if (!isString(str) || !isNumber(num)) throwTypeErr('repeat 参数不合法！')
+  if (!isString(str) || !isNumber(num)) throwTypeErr('repeat 参数不合法！');
   let arrLike = { length: num + 1 };
   return join.call(arrLike, str);
 }
@@ -87,9 +87,9 @@ function getUrlParam(url, key) {
   if (!isString(url) || !isString(key) || !urlReg.test(url)) throwTypeErr('getUrlParam 参数不合法！');
   if (!contains(url, key)) return '';
   url = contains(url, '?') ? url.split('?')[1] : url;
-  let key_vals = url.split('&'),
+  let keyVals = url.split('&'),
       res = '';
-  each(key_vals, (v, k) => {
+  each(keyVals, v => {
     if (v.split('=')[0] === key) res = v.split('=')[1];
   });
   return res;
@@ -118,7 +118,7 @@ function cutStr(str, distance, direction) {
   if (!isString(str) || !isInt(distance) || !isInt(direction)) throwTypeErr('cutStr 参数不合法！');
   let res = [], s = '';
   direction === -1 ? str = slice.call(str).reverse().join('') : null;
-  each(str, (v, k, o) => {
+  each(str, (v, k) => {
     s += v;
     if ((k + 1) % distance === 0) {
       res.push(s);
@@ -148,7 +148,7 @@ function hideWithFormat(str, format) {
   if (isUndefined(format)) return repeat('*', str.length);
   if (!isString(str) || !isString(format) || str.length !== format.length) throwTypeErr('hideWithFormat 参数不合法！');
   let res = '';
-  each(str, (v, k, o) => {
+  each(str, (v, k) => {
     res += format[k] === '*' ? '*' : v;
   });
   return res;

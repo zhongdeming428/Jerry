@@ -10,7 +10,8 @@
     "Jerry": true,
     "require": true,
     "module": true,
-    "global": true
+    "global": true,
+    "Symbol": true
   },
   "extends": "eslint:recommended",
   "rules": {

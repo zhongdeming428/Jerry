@@ -2,14 +2,14 @@
  * @Author: 格子熊
  * @Date: 2018-12-18 20:29:09
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-19 15:20:02
+ * @Last Modified time: 2018-12-20 08:52:04
  */
 
 const {
   isFunction,
   isInt
 } = require('../packages/Util');
-const { throwTypeErr, slice } = require('../utils');
+const { throwTypeErr } = require('../utils');
  
 /**
  * 函数节流
