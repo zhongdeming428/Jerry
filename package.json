@@ -1,6 +1,6 @@
 {
   "name": "jerrytools",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A small JavaScript library.",
   "main": "dist/Jerry.min.js",
   "directories": {
@@ -11,7 +11,7 @@
     "build": "rollup --config rollup.config.js",
     "eslint": "eslint src"
   },
-  "keywords": [],
+  "keywords": ["Jerry", "jerrytools"],
   "author": "Russ Zhong",
   "license": "MIT",
   "devDependencies": {

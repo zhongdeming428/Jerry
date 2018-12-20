@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 10:07:36
+ * @Last Modified time: 2018-12-20 10:24:43
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -305,13 +305,13 @@ function has(obj, key) {
  * 深拷贝 deepClone
  * @param {Any} set 深拷贝对象
  */
-function deepClone(set = {}) {
+function deepClone(set) {
   if (!set || typeof set !== 'object') return set;
   if (isDate(set)) return new Date(set);
   if (set.nodeType && isFunction(set.cloneNode)) return set.cloneNode(true);
   
   let cloneSet = isArray(set) ? [] : {};
-  each(set, key => {
+  each(set, (val, key) => {
     if (hasOwnProp.call(set, key)) {
       if (set[key] && typeof set[key] === 'object') {
         cloneSet[key] = deepClone(set[key]);
