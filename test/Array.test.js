@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:04 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-19 10:35:27
+ * @Last Modified time: 2018-12-20 13:41:12
  */
 
 const expect = require('expect.js');
@@ -20,7 +20,8 @@ const {
   shuffle,
   groupBy,
   compact,
-  pluck
+  pluck,
+  pick
 } = require('../src/packages/Array');
 
 describe('*************************************测试 Array*************************************', function() {
@@ -277,6 +278,11 @@ describe('*************************************测试 Array*********************
         age: 14
       }], 'age')).to.eql([12, 13, 14]);
       expect(pluck(['a', 'abc', 'abcde'], 'length')).to.eql([1, 3, 5]);
+    });
+  });
+  describe('测试 pick', function() {
+    it('确保返回随机项', function() {
+      // expect(pick([1, 2, 3])).to.eql();
     });
   });
 });

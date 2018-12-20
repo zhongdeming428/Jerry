@@ -7,8 +7,7 @@ const {
   toCurrency,
   toChineseAmount,
   toPhoneNumber,
-  toDate,
-  randomInt
+  toDate
 } = require('../src/packages/Number');
 const expect = require('expect.js');
 
@@ -231,26 +230,6 @@ describe('*************************************测试 Number *******************
     it('确保正确转化', function() {
       expect(toDate(20181212, '-')).to.equal('2018-12-12');
       expect(toDate(15915654, '/')).to.equal('1591/56/54');
-    });
-  });
-  describe('测试 randomInt', function() {
-    it('非法参数报错', function() {
-      for (let i = 0; i< 100; i++) {
-        expect(() => {randomInt()}).to.throwError();
-        expect(() => {randomInt(105)}).to.throwError();
-        expect(() => {randomInt(105, 100)}).to.throwError();
-      }
-    });
-    it('返回正确结果', function() {
-      for (let i = 0; i < 100; i++) {
-        expect(randomInt(0, 1)).within(0, 1);
-      }
-      for (let i = 0; i < 100; i++) {
-        expect(randomInt(5, 7)).within(5, 7);
-      }
-      for (let i = 0; i< 100; i++) {
-        expect(randomInt(100, 105)).within(100, 105);
-      }
     });
   });
 });

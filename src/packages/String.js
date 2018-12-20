@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 08:54:54
+ * @Last Modified time: 2018-12-20 11:27:24
  */
 
 const { join, throwTypeErr,slice } = require('../utils');
@@ -14,7 +14,8 @@ const {
   each,
   map,
   isObject ,
-  isUndefined
+  isUndefined,
+  randomInt
 } = require('./Util');
 
 /**
@@ -154,6 +155,19 @@ function hideWithFormat(str, format) {
   return res;
 }
 
+/**
+ * 返回随机颜色字符串
+ * @param {Boolean} isRGB 是否返回 rgb 字符串，默认为否
+ */
+function randomColor(isRGB = false) {
+  let randoms = [randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)];
+  if (!isRGB) return `rgb(${randoms[0]}, ${randoms[1]}, ${randoms[2]})`;
+  else {
+    let hexs = map(randoms, v => (v).toString(16));
+    return `#${hexs.join('')}`;
+  }
+}
+
 module.exports = {
   repeat,
   insertStr,
@@ -165,5 +179,6 @@ module.exports = {
   setUrlParam,
   cutStr,
   truncate,
-  hideWithFormat
+  hideWithFormat,
+  randomColor
 };
