@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 11:02:50
+ * @Last Modified time: 2018-12-20 11:17:08
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -362,6 +362,16 @@ function delCookie(key) {
   setCookie(key, '', -1);
 }
 
+/**
+ * 返回指定区间的随机整数，左闭右闭，即返回结果位于 [start, end]
+ * @param {Number} start 最小值
+ * @param {Number} end 最大值
+ */
+function randomInt(start, end) {
+  if (isUndefined(start) || isUndefined(end) || end < start) throwTypeErr('randomInt 参数不合法！');
+  return Math.floor(Math.random() * (end + 1 - start) + start);
+}
+
 module.exports = {
   mixin,
   isFunction,
@@ -391,5 +401,6 @@ module.exports = {
   deepClone,
   setCookie,
   getCookie,
-  delCookie
+  delCookie,
+  randomInt
 };

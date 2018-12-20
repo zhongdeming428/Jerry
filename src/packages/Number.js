@@ -2,10 +2,10 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 09:47:57 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 10:07:49
+ * @Last Modified time: 2018-12-20 13:43:14
  */
 
-const { each, reduce, isNumber, isInt, isString, isUndefined } = require('../packages/Util');
+const { each, reduce, isNumber, isInt, isString } = require('../packages/Util');
 const { throwTypeErr } = require('../utils');
 const { repeat, insertStr, cutStr } = require('./String');
 
@@ -152,15 +152,6 @@ function toDate(num, delimeter) {
   return insertStr(String(num), delimeter, 2).replace(delimeter, '');
 }
 
-/**
- * 返回指定区间的随机整数，左闭右闭，即返回结果位于 [start, end]
- * @param {Number} start 最小值
- * @param {Number} end 最大值
- */
-function randomInt(start, end) {
-  if (isUndefined(start) || isUndefined(end) || end < start) throwTypeErr('randomInt 参数不合法！');
-  return Math.floor(Math.random() * (end + 1 - start) + start);
-}
 
 module.exports = {
   add: _calcReducer('add'),
@@ -171,6 +162,5 @@ module.exports = {
   toCurrency,
   toChineseAmount,
   toPhoneNumber,
-  toDate,
-  randomInt
+  toDate
 };
