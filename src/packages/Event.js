@@ -8,6 +8,12 @@
 const { isInBrowser } = require('../utils');
 const { each } = require('./Util');
 
+/**
+ * 兼容模式的事件绑定函数
+ * @param {Element} el 要绑定事件的 DOM 元素
+ * @param {String} eventType 事件类型
+ * @param {Function} callback 事件处理函数
+ */
 function addEvent(el, eventType, callback) {
   if (!isInBrowser()) return;
   if (window.addEventListener) {
@@ -19,6 +25,12 @@ function addEvent(el, eventType, callback) {
   }
 }
 
+/**
+ * 兼容模式的事件解绑函数
+ * @param {Element} el 要解绑事件的 DOM 元素
+ * @param {String} eventType 事件类型
+ * @param {Function} callback 事件处理函数
+ */
 function removeEvent(el, eventType, callback) {
   if (!isInBrowser()) return;
   if (window.removeEventListener) {
@@ -30,6 +42,9 @@ function removeEvent(el, eventType, callback) {
   }
 }
 
+/**
+ * 自定义事件中心
+ */
 class CustomEvents {
   constructor() {
     this.callbacks = {};
@@ -50,8 +65,31 @@ class CustomEvents {
   }
 }
 
+let callbacks = [];
+
+function ready(fn) {
+  if (!isInBrowser() || document.readyState === 'complete') return fn();
+  callbacks.push(fn);
+
+  let domContentLoadedHandler = () => {
+    removeEvent(document, 'DOMContentLoaded', domContentLoadedHandler);
+    removeEvent(document, 'readystatechange', readyStateChangeHandler);
+    removeEvent(window, 'load', loadHandler);
+    each(callbacks, fn => {
+      fn();
+    });
+    callbacks = [];
+  };
+  let readyStateChangeHandler = domContentLoadedHandler;
+  let loadHandler = readyStateChangeHandler;
+  addEvent(document, 'DOMContentLoaded', domContentLoadedHandler);
+  addEvent(document, 'readystatechange', readyStateChangeHandler);
+  addEvent(window, 'load', loadHandler);
+}
+
 module.exports = {
   addEvent,
   removeEvent,
-  CustomEvents
+  CustomEvents,
+  ready
 };
