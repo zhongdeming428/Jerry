@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 09:47:57 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 08:56:59
+ * @Last Modified time: 2018-12-20 10:07:49
  */
 
 const { each, reduce, isNumber, isInt, isString, isUndefined } = require('../packages/Util');
@@ -70,7 +70,7 @@ function factorial(num) {
   let res = 1;
   do {
     res = res * num--;
-  } while(num > 0);
+  } while (num > 0);
   return res;
 }
 

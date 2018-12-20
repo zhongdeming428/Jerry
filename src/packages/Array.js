@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 09:29:09 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 08:51:03
+ * @Last Modified time: 2018-12-20 10:09:03
  */
 
 const { 
@@ -139,7 +139,7 @@ function flatten(arr, shallow = false) {
 function shuffle(arr) {
   let len = arr.length,
       newArr = slice.call(arr);
-  while(--len) {
+  while (--len) {
     let idx = randomInt(0, len),
         tmp = newArr[len];
     newArr[len] = newArr[idx];

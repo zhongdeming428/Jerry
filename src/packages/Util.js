@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-10 17:13:16 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 08:55:46
+ * @Last Modified time: 2018-12-20 10:07:36
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -179,7 +179,7 @@ function contains(param, subItem) {
  * @param {Any} subItme 指定项
  */
 function _arrContains(arr, subItme) {
-  for(let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (equals(arr[i], subItme)) return true;
   }
   return false;
