@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 20:26:51 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-17 21:21:54
+ * @Last Modified time: 2018-12-20 08:51:51
  */
 
 const { isInBrowser } = require('../utils');
@@ -10,9 +10,9 @@ const { each } = require('./Util');
 
 function addEvent(el, eventType, callback) {
   if (!isInBrowser()) return;
-  if (!!window.addEventListener) {
+  if (window.addEventListener) {
     el.addEventListener(eventType, callback);
-  } else if (!!window.attachEvent) {
+  } else if (window.attachEvent) {
     el.attachEvent('on' + eventType, callback);
   } else {
     el['on' + eventType] = callback;
@@ -21,9 +21,9 @@ function addEvent(el, eventType, callback) {
 
 function removeEvent(el, eventType, callback) {
   if (!isInBrowser()) return;
-  if (!!window.removeEventListener) {
+  if (window.removeEventListener) {
     el.removeEventListener(eventType, callback);
-  } else if (!!window.detachEvent) {
+  } else if (window.detachEvent) {
     el.detachEvent('on' + eventType, callback);
   } else {
     el['on' + eventType] = callback;
