@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:32:28 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 13:27:57
+ * @Last Modified time: 2018-12-21 17:37:47
  */
 
 const expect = require('expect.js');
@@ -17,8 +17,18 @@ const {
   setUrlParam,
   cutStr,
   truncate,
-  hideWithFormat,
-  randomColor
+  mask,
+  randomColor,
+  reverseStr,
+  capitalize,
+  capitalizeEveryWord,
+  escapeHTML,
+  unescapeHTML,
+  fromCamelCase,
+  isAnagram,
+  camelize,
+  dasherize,
+  underscored
 } = require('../src/packages/String');
 
 describe('*************************************测试 String *************************************', function() {
@@ -206,21 +216,21 @@ describe('*************************************测试 String *******************
       expect(truncate('爱妃空间的说法奥斯卡级我让爱妃奥斯卡级VM 我', 11)).to.equal('爱妃空间的说法奥斯卡级……');
     });
   });
-  describe('测试 hideWithFormat', function() {
+  describe('测试 mask', function() {
     it('参数错误校验', function() {
-      expect(() => {hideWithFormat({})}).to.throwError();
-      expect(() => {hideWithFormat({}, false)}).to.throwError();
-      expect(() => {hideWithFormat('1', '12')}).to.throwError();
-      expect(() => {hideWithFormat(1, '12')}).to.throwError();
-      expect(() => {hideWithFormat(false, 1)}).to.throwError();
+      expect(() => {mask({})}).to.throwError();
+      expect(() => {mask({}, false)}).to.throwError();
+      expect(() => {mask('1', '12')}).to.throwError();
+      expect(() => {mask(1, '12')}).to.throwError();
+      expect(() => {mask(false, 1)}).to.throwError();
     });
     it('返回正确结果', function() {
-      expect(hideWithFormat('123', '2*2')).to.be('1*3');
-      expect(hideWithFormat('19828288282', '111****1111')).to.be('198****8282');
-      expect(hideWithFormat('123', '22*')).to.be('12*');
-      expect(hideWithFormat('123', '*22')).to.be('*23');
-      expect(hideWithFormat('123')).to.be('***');
-      expect(hideWithFormat('')).to.be('');
+      expect(mask('123', '2*2')).to.be('1*3');
+      expect(mask('19828288282', '111****1111')).to.be('198****8282');
+      expect(mask('123', '22*')).to.be('12*');
+      expect(mask('123', '*22')).to.be('*23');
+      expect(mask('123')).to.be('***');
+      expect(mask('')).to.be('');
     });
   });
   describe('测试 randomColor', function() {
@@ -230,5 +240,83 @@ describe('*************************************测试 String *******************
     it('测试非 rgb 格式', function() {
       // expect(randomColor()).to.equal();
     })
+  });
+  describe('测试 reverseStr', function() {
+    it('确保字符串反转', function() {
+      expect(reverseStr('123')).to.equal('321');
+      expect(reverseStr('abc')).to.equal('cba');
+      expect(reverseStr(' 12 3')).to.equal('3 21 ');
+    });
+  });
+  describe('测试 capitalize', function() {
+    it('确保字符串首字母大写', function() {
+      expect(capitalize('123')).to.equal('123');
+      expect(capitalize('abc')).to.equal('Abc');
+      expect(capitalize('abC')).to.equal('AbC');
+      expect(capitalize('abC', true)).to.equal('Abc');
+      expect(capitalize(' 12 3')).to.equal(' 12 3');
+    });
+  });
+  describe('测试 capitalizeEveryWord', function() {
+    it('确保字符串中所有单词首字母大写', function() {
+      expect(capitalizeEveryWord('123')).to.equal('123');
+      expect(capitalizeEveryWord('abc def')).to.equal('Abc Def');
+      expect(capitalizeEveryWord('hello world')).to.equal('Hello World');
+    });
+  });
+  describe('测试 escapeHTML', function() {
+    it('确保字符串 HTML 转码', function() {
+      expect(escapeHTML('<123>')).to.equal('&lt;123&gt;');
+      expect(escapeHTML('<abc def/>')).to.equal('&lt;abc def/&gt;');
+      expect(escapeHTML("<h1>'Hello'</h2>")).to.equal('&lt;h1&gt;&#39;Hello&#39;&lt;/h2&gt;');
+      expect(escapeHTML("<h1>'Hello' & " + 'world"</h2>')).to.equal('&lt;h1&gt;&#39;Hello&#39; &amp; world&quot;&lt;/h2&gt;');
+    });
+  });
+  describe('测试 unescapeHTML', function() {
+    it('确保字符串 HTML 编码', function() {
+      expect(unescapeHTML('&lt;123&gt;')).to.equal('<123>');
+      expect(unescapeHTML('&lt;abc def/&gt;')).to.equal('<abc def/>');
+      expect(unescapeHTML("&lt;h1&gt;&#39;Hello&#39;&lt;/h2&gt;")).to.equal("<h1>'Hello'</h2>");
+      expect(unescapeHTML("&lt;h1&gt;&#39;Hello&#39; &amp; world&quot;&lt;/h2&gt;")).to.equal("<h1>'Hello' & " + 'world"</h2>');
+    });
+  });
+  describe('测试 fromCamelCase', function() {
+    it('确保字符串从驼峰式风格转化为间隔符打断风格', function() {
+      expect(fromCamelCase('fromCamelCase')).to.equal('from_camel_case');
+      expect(fromCamelCase('isModuleNamed')).to.equal('is_module_named');
+      expect(fromCamelCase('getFullYear', '-')).to.equal('get-full-year');
+    });
+  });
+  describe('测试 isAnagram', function() {
+    it('判断两字符串是否是同字母异序字符串', function() {
+      expect(isAnagram('fromCamelCase', 'camelfromcase')).to.equal(true);
+      expect(isAnagram('isModuleNamed', 'moduleISnamed')).to.equal(true);
+      expect(isAnagram('getFullYear', 'yeargetfull')).to.equal(true);
+      expect(isAnagram('getFullYear', 'yeargetfull!')).to.equal(false);
+    });
+  });
+  describe('测试 camelize', function() {
+    it('将字符串转化为驼峰风格', function() {
+      expect(camelize('grid-container')).to.equal('gridContainer');
+      expect(camelize('css_style_name')).to.equal('cssStyleName');
+      expect(camelize('hello world test')).to.equal('helloWorldTest');
+      expect(camelize('underscore_name-style_mix')).to.equal('underscoreNameStyleMix');
+    });
+  });
+  describe('测试 dasherize', function() {
+    it('将字符串转化为连字符风格', function() {
+      expect(dasherize('gridContainer')).to.equal('grid-container');
+      expect(dasherize('cssStyleName')).to.equal('css-style-name');
+      expect(dasherize('hello_world_test')).to.equal('hello-world-test');
+      expect(dasherize('underscore_nameStyle_mix')).to.equal('underscore-name-style-mix');
+    });
+  });
+  describe('测试 underscored', function() {
+    it('将字符串转化为连字符风格', function() {
+      expect(underscored('gridContainer')).to.equal('grid_container');
+      expect(underscored('cssStyleName')).to.equal('css_style_name');
+      expect(underscored('hello-world-test')).to.equal('hello_world_test');
+      expect(underscored('underscore nameStyle-mix')).to.equal('underscore_name_style_mix');
+    });
   });
 });
