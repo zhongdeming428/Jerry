@@ -1,13 +1,14 @@
 /*
- * @Author: Russ Zhong 
- * @Date: 2018-12-11 11:06:50 
- * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 13:30:44
+ * @Author: Russ Zhong
+ * @Date: 2018-12-11 11:06:50
+ * @Last Modified by: 格子熊
+ * @Last Modified time: 2018-12-21 11:20:08
  */
 
 const expect = require('expect.js');
 const {
   mixin,
+  getType,
   isFunction,
   isNumber,
   isPlainObject,
@@ -56,6 +57,33 @@ describe('*************************************测试工具函数***************
       let obj = { name: '12' };
       mixin({ name: '12' }, { name: 12 });
       expect(obj).to.eql({ name: 12 });
+    });
+  });
+  describe('测试 getType', function() {
+    it('字符串返回 String', function() {
+      expect(getType('')).to.equal('String');
+    });
+    it('数字返回 Number', function() {
+      expect(getType(0)).to.equal('Number');
+    });
+    it('undefined 返回 Undefined', function() {
+      expect(getType(undefined)).to.equal('Undefined');
+    });
+    it('boolean 返回 Boolean', function() {
+      expect(getType(true)).to.equal('Boolean');
+    });
+    it('null 返回 Null', function() {
+      expect(getType(null)).to.equal('Null');
+    });
+    it('对象返回 Object', function() {
+      expect(getType({})).to.equal('Object');
+    });
+    it('数组返回 Array', function() {
+      expect(getType([])).to.equal('Array');
+    });
+    it('函数返回 Function', function() {
+      function emptyFun() {}
+      expect(getType(emptyFun)).to.equal('Function');
     });
   });
   describe('测试 isFunction', function() {

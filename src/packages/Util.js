@@ -1,8 +1,8 @@
 /*
- * @Author: Russ Zhong 
- * @Date: 2018-12-10 17:13:16 
- * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 11:17:08
+ * @Author: Russ Zhong
+ * @Date: 2018-12-10 17:13:16
+ * @Last Modified by: 格子熊
+ * @Last Modified time: 2018-12-21 11:17:08
  */
 
 const { toString, slice, hasOwnProp, throwTypeErr, isInBrowser } = require('../utils');
@@ -22,6 +22,15 @@ function _mixin(dest, source) {
     dest[key] = source[key];
   }
   return dest;
+}
+
+/**
+ * 返回给定变量的原始类型字符串
+ * @param {Any} value
+ * @returns {string}
+ */
+function getType(value) {
+  return Object.prototype.toString.call(value).slice(8,-1);
 }
 
 function isFunction(param) {
@@ -310,7 +319,7 @@ function deepClone(set) {
   if (!set || typeof set !== 'object') return set;
   if (isDate(set)) return new Date(set);
   if (set.nodeType && isFunction(set.cloneNode)) return set.cloneNode(true);
-  
+
   let cloneSet = isArray(set) ? [] : {};
   each(set, (val, key) => {
     if (hasOwnProp.call(set, key)) {
@@ -374,6 +383,7 @@ function randomInt(start, end) {
 
 module.exports = {
   mixin,
+  getType,
   isFunction,
   isNumber,
   isPlainObject,
