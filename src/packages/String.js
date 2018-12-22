@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-13 14:29:01 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-21 17:39:52
+ * @Last Modified time: 2018-12-22 10:44:49
  */
 
 const { join, throwTypeErr,slice } = require('../utils');
@@ -116,7 +116,7 @@ function setUrlParam(obj) {
  * @param {Number} distance 切割间距
  * @param {Number} direction 1 为正序切割，-1 为逆序切割
  */
-function cutStr(str, distance, direction) {
+function cutStr(str, distance, direction = 1) {
   if (!isString(str) || !isInt(distance) || !isInt(direction)) throwTypeErr('cutStr 参数不合法！');
   let res = [], s = '';
   direction === -1 ? str = slice.call(str).reverse().join('') : null;
