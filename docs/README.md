@@ -1,4 +1,4 @@
-<center><img src="./docs/Jerry.png" alt="Jerry"/></center>
+<center><img src="./Jerry.png" alt="Jerry"/></center>
 
 ![](https://img.shields.io/github/license/zhongdeming428/Jerry.svg)
 [![Build Status](https://travis-ci.org/zhongdeming428/Jerry.svg?branch=master)](https://travis-ci.org/zhongdeming428/Jerry)
@@ -17,7 +17,7 @@
 
 此外，如果你有任何好的想法，欢迎在 issues 发布新的 issues。如果你想提供好的意见，增加实用的新功能，可以在已有的 [New Features](https://github.com/zhongdeming428/Jerry/issues/2) 下面留言。
 
-## 如何在本地构建
+# 如何在本地构建
 
 首先，拷贝代码到本地：
 
@@ -39,7 +39,7 @@ $ npm run build
 
 另外，通过 `npm run test` 可以运行所有测试案例，通过 `npm run eslint` 可以检测代码风格是否符合规范。
 
-## Get Started
+# Get Started
 
 使用 Jerry 的方式有两种，一是通过 `script` 标签引入，二是通过 `npm` 安装。
 
@@ -78,13 +78,13 @@ $.isNumber(123);
 $(123).isNumber(); // true
 ```
 
-## 使用文档
+# 使用文档
 
 以下代码的前提是已经引入了
 
-### String 类
+## String 类
 
-**repeat**
+### repeat
 
 将指定字符串重复 n 次
 
@@ -102,7 +102,7 @@ $.repeat('abc', 2); // 'abcabc'
 $('123').repeat(3); // '123123123'
 ```
 
-**insertStr**
+### insertStr
 
 对指定字符串从尾部开始按一定间隔插入指定字符
 
@@ -121,7 +121,7 @@ $.insertStr('13873788888', '-', '4'); // 138-7378-8888
 $('13873788888').insertStr('-', 4); // 138-7378-8888
 ```
 
-**trimLeft**
+### trimLeft
 
  去除字符串左侧的空白 
 
@@ -136,7 +136,7 @@ $.trimLeft('   123'); // '123'
 $.trimLeft('\r\n\t123'); // '123'
 ```
 
-**trimRight**
+### trimRight
 
  去除字符串右侧的空白 
 
@@ -146,7 +146,7 @@ $.trimLeft('\r\n\t123'); // '123'
 
 使用示例请参考 `trimLeft`。
 
-**trim**
+### trim
 
  去除字符串两侧的空白 
 
@@ -156,7 +156,7 @@ $.trimLeft('\r\n\t123'); // '123'
 
 使用示例请参考 `trimLeft`。
 
-**toPsw**
+### toPsw
 
  将字符串密码化，可以充当某些输入框的过滤器
  
@@ -171,7 +171,7 @@ $.trimLeft('\r\n\t123'); // '123'
 $.toPsw('abc123'); // '******'
 ```
 
-**getUrlParam**
+### getUrlParam
 
 解析出 URL 中的对应参数
 
@@ -185,7 +185,7 @@ $.toPsw('abc123'); // '******'
 $.getUrlParam('http://www.baidu.com/?name=test', 'name') // 'test'
 ```
 
-**setUrlParam**
+### setUrlParam
 
 根据传入的对象的键值对构造一个 URL 参数字符串
 
@@ -197,7 +197,7 @@ $.getUrlParam('http://www.baidu.com/?name=test', 'name') // 'test'
 $.setUrlParam({name: 'test', age: 12}); // 'name=test&age=12'
 ```
 
-**curStr**
+### curStr
 
 将字符串按指定间隔切割，返回字符串数组
 
@@ -215,7 +215,7 @@ $.cutStr('abc', 2, 1); // ['ab', 'c']
 $.cutStr('abc', 2, -1); // ['a', 'bc']
 ```
 
-**truncate**
+### truncate
 
 按指定长度截断字符串，多余部分用省略号代替
 
@@ -230,7 +230,7 @@ $.truncate('123', 2); // '12……'
 $.truncate('SJFDSKHGNVNJFKLkjsfdlkjdskgsdoiewjgkds', 12); // 'SJFDSKHGNVNJ……'
 ```
 
-**mask**
+### mask
 
 按指定格式遮掩字符串的部分字符
 
@@ -245,7 +245,7 @@ $.mask('123', '2*2'); // '1*3'
 $.mask('19828288282', '111****1111'); // '198****8282'
 ```
 
-**randomColor**
+### randomColor
 
 返回随机颜色字符串
 
@@ -258,7 +258,7 @@ $.randomColor(true)； // 'rag(12, 23, 238)'
 $.randomColor(); // '#d23f18'
 ```
 
-**reverseStr**
+### reverseStr
 
 反转字符串
 
@@ -269,7 +269,7 @@ $.reverseStr('abc'); // 'cba'
 $.reverseStr('123'); // '321'
 ```
 
-**capitalize**
+### capitalize
 
 字符串首字母大写
 
@@ -283,7 +283,7 @@ $.reverseStr('123'); // '321'
 $.capitalize('abC')； // 'AbC'
 ```
 
-**capitalizeEveryWord**
+### capitalizeEveryWord
 
 所有单词首字母大写
 
@@ -294,7 +294,7 @@ $.capitalizeEveryWord('abc def'); // 'Abc Def'
 $.capitalizeEveryWord('hello world'); // 'Hello World'
 ```
 
-**escapeHTML**
+### escapeHTML
 
 对 HTML 字符转义
 
@@ -305,7 +305,7 @@ $.escapeHTML("<h1>'Hello'</h2>"); // '&lt;h1&gt;&#39;Hello&#39;&lt;/h2&gt;'
 $.escapeHTML("<h1>'Hello' & " + 'world"</h2>'); // '&lt;h1&gt;&#39;Hello&#39; &amp; world&quot;&lt;/h2&gt;'
 ```
 
-**unescapeHTML**
+### unescapeHTML
 
 对 HTML 转义字符进行还原
 
@@ -316,7 +316,7 @@ $.unescapeHTML("&lt;h1&gt;&#39;Hello&#39;&lt;/h2&gt;"); // "<h1>'Hello'</h2>"
 $.unescapeHTML("&lt;h1&gt;&#39;Hello&#39; &amp; world&quot;&lt;/h2&gt;"); // "<h1>'Hello' & " + 'world"</h2>'
 ```
 
-**fromCamelCase**
+### fromCamelCase
 
 将驼峰字符串转化为用指定间隔符隔开的字符串
 
@@ -331,7 +331,7 @@ $.fromCamelCase('fromCamelCase'); // 'from_camel_case'
 $.fromCamelCase('getFullYear', '-'); // 'get-full-year'
 ```
 
-**isAnagram**
+### isAnagram
 
 判断两字符串是否是同字母异序字符串，忽略大小写
 
@@ -342,7 +342,7 @@ $.isAnagram('fromCamelCase', 'camelfromcase'); // true
 $.isAnagram('isModuleNamed', 'moduleISnamed'); // true
 ```
 
-**camelize**
+### camelize
 
 将字符串转化为驼峰风格
 
@@ -355,7 +355,7 @@ $.camelize('hello world test'); // 'helloWorldTest'
 $.camelize('underscore_name-style_mix'); // 'underscoreNameStyleMix'
 ```
 
-**dasherize**
+### dasherize
 
 将字符串转化为连字符风格
 
@@ -368,7 +368,7 @@ $.dasherize('hello_world_test'); // 'hello-world-test'
 $.dasherize('underscore_nameStyle_mix'); // 'underscore-name-style-mix'
 ```
 
-**underscored**
+### underscored
 
 将字符串转化为下划线风格
 
@@ -381,9 +381,9 @@ $.underscored('hello-world-test'); // 'hello_world_test'
 $.underscored('underscore nameStyle-mix'); // 'underscore_name_style_mix'
 ```
 
-### Number 类
+## Number 类
 
-**add**
+### add
 
 不损失精度的加法函数，支持多个参数相加
 
@@ -394,7 +394,7 @@ $.add(0.1, 0.2); // 0.3
 $.add(1, 2, 3, 4); // 10
 ```
 
-**sub**
+### sub
 
 不损失精度的减法函数，支持多参数相减
 
@@ -405,7 +405,7 @@ $.sub(0.54, 0.19); // 0.35
 $.sub(0.5, 0.1, 0.1); // 0.3
 ```
 
-**mul**
+### mul
 
 不损失精度的乘法，支持多参数相乘
 
@@ -416,7 +416,7 @@ $.mul(1, 2, 3); // 6
 $.mul(0.55, 100); // 55
 ```
 
-**div**
+### div
 
 不损失精度的除法，支持多参数相除
 
@@ -426,7 +426,7 @@ $.mul(0.55, 100); // 55
 $.div(100, 2, 5); // 10
 ```
 
-**factorial**
+### factorial
 
 阶乘函数，支持计算非负整数的阶乘
 
@@ -438,7 +438,7 @@ $.div(100, 2, 5); // 10
 $.factorial(5); // 120
 ```
 
-**toCurrency**
+### toCurrency
 
 将数字进行千分位格式化，可以指定金币符号
 
@@ -457,7 +457,7 @@ $.toCurrency(9818.9); // '￥9,818.90'
 $.toCurrency(9818.9, '$', 3); // '$9,818.900'
 ```
 
-**toChineseAmount**
+### toChineseAmount
 
 将金额数字转化为大写汉字金额字符串
 
@@ -470,7 +470,7 @@ $.toChineseAmount(0.12); // '壹角贰分'
 $.toChineseAmount(316.09); // '叁佰壹拾陆圆零玖分'
 ```
 
-**toPhoneNumber**
+### toPhoneNumber
 
 将 7 位或者 11 位的数字转化为电话格式的字符串
 
@@ -483,7 +483,7 @@ $.toPhoneNumber(12345678998); // '123-4567-8998'
 $.toPhoneNumber(8861792); // '8861-792'
 ```
 
-**toDate**
+### toDate
 
 将 8 位数字转化为日期格式的字符串
 
@@ -498,7 +498,7 @@ $.toDate(20181212, '-'); // '2018-12-12'
 $.toDate(20181212, '/'); // '2018/12/12'
 ```
 
-**randomInt**
+### randomInt
 
 返回指定区间的随机整数，左闭右闭，即返回结果位于 [start, end]
 
@@ -512,9 +512,9 @@ $.toDate(20181212, '/'); // '2018/12/12'
 $.randomInt(5, 7); // 5 or 6 or 7
 ```
 
-### Date 类
+## Date 类
 
-**dateAdd**
+### dateAdd
 
 计算给定日期在给定天数之后的日期
 
@@ -528,7 +528,7 @@ $.randomInt(5, 7); // 5 or 6 or 7
 $.dateAdd(new Date(), 20); // Fri Jan 11 2019 12:37:21 GMT+0800 (中国标准时间)
 ```
 
-**dateSub**
+### dateSub
 
 计算给定日期在给定天数之前的日期
 
@@ -542,7 +542,7 @@ $.dateAdd(new Date(), 20); // Fri Jan 11 2019 12:37:21 GMT+0800 (中国标准时
 $.dateSub(new Date(), 20); // Sun Dec 02 2018 12:38:51 GMT+0800 (中国标准时间)
 ```
 
-**getDatePeriod**
+### getDatePeriod
 
 获取当前日期所在月的第一天的日期
 
@@ -552,7 +552,7 @@ $.dateSub(new Date(), 20); // Sun Dec 02 2018 12:38:51 GMT+0800 (中国标准时
 $.getDatePeriod(new Date('2018-12-10'), new Date('2018-12-20')); // 10
 ```
 
-**getFirstDateInMonth**
+### getFirstDateInMonth
 
 获取当前日期所在月的第一天的日期
 
@@ -562,7 +562,7 @@ $.getDatePeriod(new Date('2018-12-10'), new Date('2018-12-20')); // 10
 $.getFirstDateInMonth(new Date('2018-12-12')); // Sat Dec 01 2018 00:00:00 GMT+0800 (中国标准时间)
 ```
 
-**getLastDateInMonth**
+### getLastDateInMonth
 
 计算当前日期所在月的最后一天
 
@@ -572,7 +572,7 @@ $.getFirstDateInMonth(new Date('2018-12-12')); // Sat Dec 01 2018 00:00:00 GMT+0
 $.getLastDateInMonth(new Date(2018, 11, 12)); // Mon Dec 31 2018 00:00:00 GMT+0800 (中国标准时间)
 ```
 
-**getDaysInMonth**
+### getDaysInMonth
 
 计算当前日期所在月的天数
 
@@ -582,7 +582,7 @@ $.getLastDateInMonth(new Date(2018, 11, 12)); // Mon Dec 31 2018 00:00:00 GMT+08
 $.getDaysInMonth(new Date('2018-12-12')); // 31
 ```
 
-**isLeapYear**
+### isLeapYear
 
 判断当前日期所在年是否是闰年
 
@@ -593,7 +593,7 @@ $.isLeapYear(new Date('2018-12-12')); // false
 $.isLeapYear(new Date('2016-12-12')); // true
 ```
 
-**getFirstDateInQuarter**
+### getFirstDateInQuarter
 
 获取当前日期所在季度的第一天
 
@@ -603,7 +603,7 @@ $.isLeapYear(new Date('2016-12-12')); // true
 $.getFirstDateInQuarter(new Date(2018, 1, 12)); // Mon Jan 01 2018 00:00:00 GMT+0800 (中国标准时间)
 ```
 
-**getLastDateInQuarter**
+### getLastDateInQuarter
 
 获取当前日期所在季度的最后一天
 
@@ -613,9 +613,9 @@ $.getFirstDateInQuarter(new Date(2018, 1, 12)); // Mon Jan 01 2018 00:00:00 GMT+
 $.getLastDateInQuarter(new Date(2018, 5, 12)); // Sat Jun 30 2018 00:00:00 GMT+0800 (中国标准时间)
 ```
 
-### Array 类
+## Array 类
 
-**max**
+### max
 
 求数组中的最大值
 
@@ -625,7 +625,7 @@ $.getLastDateInQuarter(new Date(2018, 5, 12)); // Sat Jun 30 2018 00:00:00 GMT+0
 $.max([1, 2, 3]); // 3
 ```
 
-**min**
+### min
 
 求数组中的最小值
 
@@ -635,7 +635,7 @@ $.max([1, 2, 3]); // 3
 $.min([1, 2, 3]); // 1
 ```
 
-**sum**
+### sum
 
 求数组中所有元素的和
 
@@ -645,7 +645,7 @@ $.min([1, 2, 3]); // 1
 $.sum([1, 2, 3]); // 6
 ```
 
-**avg**
+### avg
 
 求数组中所有元素的平均值
 
@@ -656,7 +656,7 @@ $.avg([1, 2, 3]); // 2
 ```
 
 
-**variance**
+### variance
 
 求数组中所有元素的方差
 
@@ -666,7 +666,7 @@ $.avg([1, 2, 3]); // 2
 $.variance([1, 2, 3]); // 0.6666...
 ```
 
-**intersection**
+### intersection
 
 求多个数组的交集
 
@@ -676,7 +676,7 @@ $.variance([1, 2, 3]); // 0.6666...
 $.intersection([1, 2, 3], [1], [1, 2]); // [1]
 ```
 
-**union**
+### union
 
 求多个数组的并集
 
@@ -686,7 +686,7 @@ $.intersection([1, 2, 3], [1], [1, 2]); // [1]
 $.union([1, 2], [3, 4], [false]); // [1, 2, 3, 4, false]
 ```
 
-**difference**
+### difference
 
 求多个数组的差集
 
@@ -696,7 +696,7 @@ $.union([1, 2], [3, 4], [false]); // [1, 2, 3, 4, false]
 $.difference([1, 2, 3], [1], [2]); // [3]
 ```
 
-**flatten**
+### flatten
 
 展开多维数组为一维数组
  
@@ -711,7 +711,7 @@ $.flatten([1, 2, [4, [5, 6]], 3]); // [1, 2, 4, 5, 6, 3]
 $.flatten([1, 2, [4, [5, 6]], 3], true); // [1, 2, 4, [5, 6], 3]
 ```
 
-**removeDup**
+### removeDup
 
 对数组进行去重
 
@@ -721,7 +721,7 @@ $.flatten([1, 2, [4, [5, 6]], 3], true); // [1, 2, 4, [5, 6], 3]
 $.removeDup([1, 2, 3, 2, 4]); // [1, 2, 3, 4]
 ```
 
-**groupBy**
+### groupBy
 
 根据回调函数的结果对数组元素进行归类，返回一个对象，每个属性都是一个类别，值为该分类元素组成的数组。
 
@@ -736,7 +736,7 @@ $.groupBy([1, 2, 3], v => String(1)); // { '1' : [1, 2, 3] }
 $.groupBy([1, 2, 3], v => String(v)); // { '1': [1], '2': [2], '3': [3] }
 ```
 
-**shuffle**
+### shuffle
 
 数组随机洗牌，返回一个新数组，采用 Fisher–Yates shuffle 的改进算法
 
@@ -747,7 +747,7 @@ $.shuffle([1, 2, 3]); // [1, 3, 2]...
 ```
 
 
-**compact**
+### compact
 
 去除数组中的 falsy 值（`NaN/false/''/undefined/null`），返回新数组
 
@@ -758,7 +758,7 @@ $.shuffle([1, 2, 3]); // [1, 3, 2]...
 $.compact([1, undefined, 2, null, 3, '', 4, false, 5, NaN]); // [1, 2, 3, 4, 5]
 ```
 
-**pluck**
+### pluck
 
 对数组里的对象取同一属性的值
 
@@ -781,7 +781,7 @@ $.pluck([
 ], 'name'); // ['Jerry', 'Tom']
 ```
 
-**pick**
+### pick
 
 返回数组中的随机一项
 
@@ -791,9 +791,9 @@ $.pluck([
 $.pick([1, 2, 3]); // 1 or 2 or 3
 ```
 
-### Function 类
+## Function 类
 
-**throttle**
+### throttle
 
 函数节流，被节流过的函数在指定时间间隔内只能触发一次
 
@@ -812,7 +812,7 @@ while (true) {
 } 
 ```
 
-**debounce**
+### debounce
 
 函数去抖，被处理过的函数，只有在执行之后的指定时间间隔后才会触发。如果第二次执行函数没有超过指定的时间间隔，那么计时器刷新。
 
@@ -832,7 +832,7 @@ while (true) {
 }
 ```
 
-**curry**
+### curry
 
 函数柯里化
 
@@ -852,9 +852,9 @@ add(1)(2, 3); // 6
 add(1)(2)(3); // 6
 ```
 
-### Event 类
+## Event 类
 
-**addEvent**
+### addEvent
 
 兼容模式的事件绑定函数，支持 IE
 
@@ -872,7 +872,7 @@ $.addEvent(document, 'click', () => {
 });
 ```
 
-**removeEvent**
+### removeEvent
 
 兼容模式的事件解绑函数，支持 IE
 
@@ -888,7 +888,7 @@ $.addEvent(document, 'click', () => {
 $.removeEvent(document, 'click', handler); // 注意 handler 必须是之前绑定的同一个函数变量
 ```
 
-**CustomEvents**
+### CustomEvents
 
 自定义事件类，它允许用户实例化一个事件中心，然后自定义事件，类似于 Node 中的 EventEmitter。
 
@@ -919,7 +919,7 @@ const { CustomEvents } = require('jerrytools');
 module.exports = new CustomEvents();
 ```
 
-**ready**
+### ready
 
 document.ready 事件，接受回调函数，在 DOM 渲染完成时执行接收的所有回调函数，类似于 jQuery.ready 函数。
 
@@ -931,9 +931,9 @@ $.ready(() => {
 });
 ```
 
-### Utils 类
+## Utils 类
 
-**isFunction**
+### isFunction
 
 判断传入变量是否是函数
 
@@ -944,7 +944,7 @@ $.isFunction(''); // false
 $.isFunction(function() {}); // true
 ```
 
-**isNumber**
+### isNumber
 
 判断传入变量是否是数字
 
@@ -956,7 +956,7 @@ $.isNumber('12'); // false
 $.isNumber(NaN); // false
 ```
 
-**isPlainObject**
+### isPlainObject
 
 判断是否是纯对象（构造函数是 Object）
 
@@ -968,7 +968,7 @@ $.isPlainObject({}); // true
 $.isPlainObject(new Person()); // false
 ```
 
-**isObject**
+### isObject
 
 判断是否是对象（可以使自定义类的示例）
 
@@ -981,7 +981,7 @@ $.isObject(new Function()); // false
 $.isObject(new Person()); // true
 ```
 
-**isString**
+### isString
 
 判断是否是字符串
 
@@ -992,7 +992,7 @@ $.isString(''); // true
 $.isString(1); // false
 ```
 
-**isArray**
+### isArray
 
 判断是否是数组
 
@@ -1002,7 +1002,7 @@ $.isString(1); // false
 $.isArray([]); // true
 ```
 
-**isArrayLike**
+### isArrayLike
 
 判断是否是类数组对象（length 属性是一个数字的对象，数组不是类数组对象）
 
@@ -1014,7 +1014,7 @@ $.isArrayLike({'0': 12, length: 1}); // true
 $.isArrayLike([1, 2, 3]); // false
 ```
 
-**isNaN**
+### isNaN
 
 判断是否是 NaN
 
@@ -1025,7 +1025,7 @@ $.isNaN(NaN); // true
 $.isNaN('a123'); // false
 ```
 
-**isSymbol**
+### isSymbol
 
 判断是否是 Symbol 类型
 
@@ -1035,7 +1035,7 @@ $.isNaN('a123'); // false
 $.isSymbol(Symbol(12)); // true
 ```
 
-**isRegExp**
+### isRegExp
 
 判断是否是正则表达式类型
 
@@ -1045,7 +1045,7 @@ $.isSymbol(Symbol(12)); // true
 $.isRegExp(/\.test$/); // true
 ```
 
-**isDate**
+### isDate
 
 判断是否是日期类型
 
@@ -1055,7 +1055,7 @@ $.isRegExp(/\.test$/); // true
 $.isDate(new Date()); // true
 ```
 
-**isUndefined**
+### isUndefined
 
 判断是否是 undefined
 
@@ -1066,7 +1066,7 @@ $.isUndefined(); // true
 $.isUndefined(null); // false
 ```
 
-**isNull**
+### isNull
 
 判断是否是 null
 
@@ -1077,7 +1077,7 @@ $.isNull(undefined); // false
 $.isNull(null); //true
 ```
 
-**isInt**
+### isInt
 
 判断是否是整数类型
 
@@ -1089,7 +1089,7 @@ $.isInt(12.00); // true
 $.isInt(12.1); // false
 ```
 
-**isFalsy**
+### isFalsy
 
 判断是否是 null/undefined/''/0/false/NaN
 
@@ -1104,7 +1104,7 @@ $.isFalsy(NaN); // true
 $.isFalsy(false); // true
 ```
 
-**isElement**
+### isElement
 
 判断是否是 DOM 元素节点
 
@@ -1115,7 +1115,7 @@ $.isElement(document.querySelector('#test')); // true
 $.isElement({}); // false
 ```
 
-**mixin**
+### mixin
 
 混淆函数，可以进行浅拷贝
 
@@ -1130,7 +1130,7 @@ let dest = {name: 'test'};
 $.mixin(dest, { age: 1 }); // dest 变成 { name: 'test', age: 1 };
 ```
 
-**each**
+### each
 
 遍历数组、类数组对象或纯对象
 
@@ -1146,7 +1146,7 @@ $.each({name: 'test', age: 1}, function(v, k, o) {
 });
 ```
 
-**map**
+### map
 
 遍历数组、类数组对象或纯对象，返回一个结果数组
 
@@ -1162,7 +1162,7 @@ $.map({name: 'Jerry'}, function(v, k, o) {
 });  // ['Jerry']
 ```
 
-**reduce**
+### reduce
 
 遍历数组、类数组对象或纯对象，返回一个累计值结果
 
@@ -1185,7 +1185,7 @@ $.reduce({name: 'and', friend: 'Tom'}, function(acc, v, k, o) {
 }, "Jerry"); // 'JerryandTom'
 ```
 
-**contains**
+### contains
 
 检测字符串或数组或类数组对象是否包含某个项
 
@@ -1200,7 +1200,7 @@ $.contains([1, 2, 3], 3); // true
 $.contains('123345', '33'); //true
 ```
 
-**keys**
+### keys
 
 返回对象所有属性名组成的数组
 
@@ -1212,7 +1212,7 @@ $.contains('123345', '33'); //true
 $.keys({name: 'Jerry'}); // ['name']
 ```
 
-**has**
+### has
 
 判断某个对象自身（不是位于原型链）是否包含某个属性
 
@@ -1227,7 +1227,7 @@ $.has({name: 'Jerry'}, 'name'); // true
 $.has({name: 'Jerry'}, 'age'); // false
 ```
 
-**equals**
+### equals
 
 判断两个变量是否相等
 
@@ -1242,7 +1242,7 @@ $.equals(/\.Jerry$/gi, /\.Jerry$/ig); // true
 $.equals([1, 2, 3], [1, 2, 3]); // true
 ```
 
-**getType**
+### getType
 
 获取变量的类型字符串
 
@@ -1256,7 +1256,7 @@ $.getType(12); // 'Number'
 // ...
 ```
 
-**deepClone**
+### deepClone
 
 深拷贝函数
 
@@ -1273,7 +1273,7 @@ console.log(_Jerry.fs); // [1, 2, 3, 4]
 console.log(Jerry.fs); // [1, 2, 3]
 ```
 
-**getCookie**
+### getCookie
 
 获取 cookie 的值
 
@@ -1285,7 +1285,7 @@ console.log(Jerry.fs); // [1, 2, 3]
 $.getCookie('token'); // 'ksaldjfklhj1234klhjkasfh'
 ```
 
-**setCookie**
+### setCookie
 
 设置 cookie
 
@@ -1301,7 +1301,7 @@ $.getCookie('token'); // 'ksaldjfklhj1234klhjkasfh'
 $.setCookie('name', 'Jerry', 365);
 ```
 
-**delCookie**
+### delCookie
 
 删除 cookie
 
@@ -1313,6 +1313,6 @@ $.setCookie('name', 'Jerry', 365);
 $.delCookie('name');
 ```
 
-### 持续更新
+## 持续更新
 
 更多功能，持续更新中……
