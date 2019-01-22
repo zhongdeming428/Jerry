@@ -15,7 +15,7 @@ const { each } = require('./Util');
  * @param {Function} callback 事件处理函数
  */
 const addEvent = function(el, eventType, callback) {
-  if (!isInBrowser()) return;
+  if (!isInBrowser()) return function() {};
   if (window.addEventListener) {
     return function(el, eventType, callback) {
       el.addEventListener(eventType, callback);
