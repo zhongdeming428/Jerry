@@ -19,17 +19,17 @@ const addEvent = function(el, eventType, callback) {
   if (window.addEventListener) {
     return function(el, eventType, callback) {
       el.addEventListener(eventType, callback);
-    }
+    };
   } else if (window.attachEvent) {
     return function(el, eventType, callback) {
       el.attachEvent('on' + eventType, callback);
-    }
+    };
   } else {
     return function(el, eventType, callback) {
       el['on' + eventType] = callback;
-    }
+    };
   }
-}
+};
 
 /**
  * 兼容模式的事件解绑函数
