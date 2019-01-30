@@ -14,16 +14,24 @@ const { each } = require('./Util');
  * @param {String} eventType 事件类型
  * @param {Function} callback 事件处理函数
  */
-function addEvent(el, eventType, callback) {
-  if (!isInBrowser()) return;
+const addEvent = (function(window) {
+  if (!isInBrowser()) return function() {
+    throw new Error('请在浏览器中使用 addEvent 函数，Node 环境下请使用自定义事件 API。');
+  };
   if (window.addEventListener) {
-    el.addEventListener(eventType, callback);
+    return function(el, eventType, callback) {
+      el.addEventListener(eventType, callback);
+    };
   } else if (window.attachEvent) {
-    el.attachEvent('on' + eventType, callback);
+    return function(el, eventType, callback) {
+      el.attachEvent('on' + eventType, callback);
+    };
   } else {
-    el['on' + eventType] = callback;
+    return function(el, eventType, callback) {
+      el['on' + eventType] = callback;
+    };
   }
-}
+})(window);
 
 /**
  * 兼容模式的事件解绑函数
