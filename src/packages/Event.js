@@ -2,7 +2,7 @@
  * @Author: Russ Zhong 
  * @Date: 2018-12-17 20:26:51 
  * @Last Modified by: Russ Zhong
- * @Last Modified time: 2018-12-20 09:12:57
+ * @Last Modified time: 2019-01-30 17:10:40
  */
 
 const { isInBrowser } = require('../utils');
@@ -15,6 +15,8 @@ const { each } = require('./Util');
  * @param {Function} callback 事件处理函数
  */
 const addEvent = (function(window) {
+  // mocha 测试 window 等 DOM 对象时会报错，需要使用 jsdom~
+  // 参考：https://stackoverflow.com/questions/34059644/mocha-command-giving-referenceerror-window-is-not-defined
   if (!isInBrowser()) return function() {
     throw new Error('请在浏览器中使用 addEvent 函数，Node 环境下请使用自定义事件 API。');
   };
