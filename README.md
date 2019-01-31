@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/license/zhongdeming428/Jerry.svg)
 [![Build Status](https://travis-ci.org/zhongdeming428/Jerry.svg?branch=master)](https://travis-ci.org/zhongdeming428/Jerry)
 ![](https://img.shields.io/npm/v/jerrytools.svg)
-
+[![codecov](https://codecov.io/gh/zhongdeming428/Jerry/branch/master/graph/badge.svg)](https://codecov.io/gh/zhongdeming428/Jerry)
 
 这个项目是基于个人兴趣所写的一个个人认为比较实用的代码库，收录了一些日常开发中比较常用的功能代码，通过使用这个工具库可以节省一些写工具函数的时间。
 
