@@ -2,3 +2,5 @@
 /dist/
 *.xml
 *.iml
+/coverage/
+.nyc_output

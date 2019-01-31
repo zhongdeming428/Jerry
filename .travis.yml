@@ -3,9 +3,11 @@ node_js:
   - "7"
 install:
   - npm i
+  - npm i -g codecov
 script:
   - npm run eslint
-  - npm run test
+  - npm run coverage
+  - node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov codecov
   - npm run build
 cache:
   directories:
