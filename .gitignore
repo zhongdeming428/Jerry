@@ -4,3 +4,4 @@
 *.iml
 /coverage/
 .nyc_output
+.vscode
